@@ -1,6 +1,10 @@
 <?php 
 session_start();
-if(!isset($_SESSION["login"])) {
+
+$login = $_SESSION['login'] && ($_SESSION["role"] == "admin") || ($_COOKIE['nama'] == 'Admin') && ($_COOKIE['role'] == 'admin');
+
+
+if(!$login) {
     header("Location: ../index.html");
     exit;
 }
@@ -36,6 +40,7 @@ if (isset($_POST['cetak'])) {
     echo cetak();
 }
 $counter = $awalData + 1;
+
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -63,13 +68,31 @@ $counter = $awalData + 1;
             font-size: 0.8rem;
             opacity: 0.8;
         }
+        a {
+            text-decoration: none;
+        }
+        .product-img {
+        width: 80px;
+        height: 80px;
+        object-fit: cover;
+        border-radius: 4px;
+        background-color: #f8f9fa;
+        }
+        .product-img.empty {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        background-color: #f8f9fa;
+        color: #6c757d;
+        font-size: 24px;
+        }
     </style>
 </head>
 <body class="bg-light">
     <div class="container py-5">
         <div class="d-flex justify-content-between align-items-center mb-4">
             <h1 class="display-5 fw-bold text-primary">
-                <i class="fas fa-boxes me-2"></i>Daftar Produk
+                <a href="../index.html"><i class="fas fa-boxes me-2"></i>Daftar Produk</a>
             </h1>
             <a href="../include/logout.php" class="btn btn-danger">
                     <i class="fas fa-sign-out-alt me-1"></i> Logout
@@ -77,44 +100,49 @@ $counter = $awalData + 1;
         </div>
 
         <!-- Header nav -->
-        <div class="card shadow-sm">
-            <div class="card-header bg-white py-3 d-flex justify-content-between align-items-center">
-                <div class="d-flex flex-column">
-                 <form method="get" class="d-flex search-box">
-                     <input type="text" class="me-2" placeholder="Cari produk..." name="keyword" autocomplete="off" value="<?= htmlspecialchars($keyword) ?>">
-                     <input type="hidden" name="halaman" value="1">
-                     <input type="hidden" name="view" value="<?= $jumlahDataPerHalaman ?>">
-                     <button type="submit" class="btn btn-primary" name="cari">
-                      <i class="fas fa-search"></i>
-                     </button>
-                 </form>
-                 <form method="get" class="d-flex justify-content-start align-items-center">
-                    <label for="view" class="form-label mb-1">Show:</label>
-                    <select name="view" id="view"  onchange="this.form.submit()" class="form-control form-select form-select-sm">
-                        <option value="5" <?= $jumlahDataPerHalaman == 5 ? 'selected' : '' ?>>5</option>
-                        <option value="10" <?= $jumlahDataPerHalaman == 10 ? 'selected' : '' ?>>10</option>
-                        <option value="15" <?= $jumlahDataPerHalaman == 15 ? 'selected' : '' ?>>15</option>
-                        <option value="20" <?= $jumlahDataPerHalaman == 20 ? 'selected' : '' ?>>20</option>
-                    </select>
-                    <?php if ($isSearching) : ?>
-                    <input type="hidden" name="keyword" value="<?= htmlspecialchars($keyword) ?>">
-                    <?php endif; ?>
-                    <input type="hidden" name="halaman" value="1">
-                 </form>
-                </div>
-                
-                <div class="d-flex align-items-center">
-                    <form method="post" class="me-2">
-                    <button type="submit" name="cetak" class="btn btn-secondary text-white">
-                     <i class="bi bi-printer me-1"></i> Cetak Laporan
-                    </button>
+<div class="card shadow-sm">
+    <div class="card-header bg-white py-3">
+        <div class="row align-items-center">
+            <!-- Left side - Search and Show -->
+            <div class="col-md-6">
+                <div class="d-flex flex-column flex-md-row align-items-md-center">
+                    <form method="get" class="d-flex search-box me-md-3 mb-2 mb-md-0">
+                        <input type="text" class="form-control me-2" placeholder="Cari produk..." name="keyword" autocomplete="off" value="<?= htmlspecialchars($keyword) ?>">
+                        <input type="hidden" name="halaman" value="1">
+                        <input type="hidden" name="view" value="<?= $jumlahDataPerHalaman ?>">
+                        <button type="submit" class="btn btn-primary" name="cari">
+                            <i class="fas fa-search"></i>
+                        </button>
                     </form>
-        
-                    <a href="tambahProduk.php" class="btn btn-success">
-                        <i class="fas fa-plus me-1"></i> Tambah Produk
-                    </a>
+                    <form method="get" class="d-flex align-items-center">
+                        <label for="view" class="form-label mb-0 me-2">Show:</label>
+                        <select name="view" id="view" onchange="this.form.submit()" class="form-select form-select-sm">
+                            <option value="5" <?= $jumlahDataPerHalaman == 5 ? 'selected' : '' ?>>5</option>
+                            <option value="10" <?= $jumlahDataPerHalaman == 10 ? 'selected' : '' ?>>10</option>
+                            <option value="15" <?= $jumlahDataPerHalaman == 15 ? 'selected' : '' ?>>15</option>
+                            <option value="20" <?= $jumlahDataPerHalaman == 20 ? 'selected' : '' ?>>20</option>
+                        </select>
+                        <?php if ($isSearching) : ?>
+                            <input type="hidden" name="keyword" value="<?= htmlspecialchars($keyword) ?>">
+                        <?php endif; ?>
+                        <input type="hidden" name="halaman" value="1">
+                    </form>
                 </div>
             </div>
+            
+            <!-- Right side - Buttons (horizontal) -->
+<div class="col-md-6 mt-3 mt-md-0 d-flex justify-content-end gap-2">
+    <a href="tambahProduk.php" class="btn btn-success btn-md px-3 py-2">
+        <i class="fas fa-plus me-1"></i> Tambah Produk
+    </a>
+    <form method="post" class="me-2">
+        <button type="submit" name="cetak" class="btn btn-secondary btn-md text-white px-3 py-2">
+            <i class="bi bi-printer me-1"></i> Cetak Laporan
+        </button>
+    </form>
+</div>
+        </div>
+     </div>
             
             <div class="card-body p-0">
                 <div class="table-responsive">
@@ -145,8 +173,16 @@ $counter = $awalData + 1;
                                 </td>
                                 <td><?= htmlspecialchars($row["Kode"]); ?></td>
                                 <td>
-                                    <img src="../img/<?= htmlspecialchars($row["Gambar"]); ?>" alt="<?= htmlspecialchars($row["Nama"]); ?>" class="product-img">
-                                </td>
+                                <?php if(!empty($row["Gambar"])): ?>
+                                    <img src="../img/<?= htmlspecialchars($row["Gambar"]); ?>" 
+                                        alt="<?= htmlspecialchars($row["Nama"]); ?>" 
+                                        class="product-img">
+                                <?php else: ?>
+                                    <img src="../img/Null-Image.png" 
+                                        alt="<?= htmlspecialchars($row["Nama"]); ?>" 
+                                        class="product-img">
+                                <?php endif; ?>
+
                                 <td><?= htmlspecialchars($row["Nama"]); ?></td>
                                 <td><?= htmlspecialchars($row["Stok"]); ?></td>
                                 <td>Rp <?= htmlspecialchars(number_format($row["Harga"], 0, ',', '.')); ?></td>

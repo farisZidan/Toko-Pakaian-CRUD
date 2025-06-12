@@ -2,30 +2,36 @@
 session_start();
 require '../config/functions.php';
 
-if (isset($_POST['rememberMe'])) {
-  setcookie('nama')
-}
+
 
 if(isset($_POST["masuk"])) {
 
   $email = $_POST["email"];
   $password = $_POST["password"];
-
   $result = mysqli_query($conn, "SELECT * FROM user WHERE email = '$email' ");
   $row = mysqli_fetch_assoc($result);
 
   if (mysqli_num_rows($result) === 1 && password_verify($password, $row["password"])) { 
-      if($row['role'] === 'admin') {
+
+    $_SESSION["login"] = true;
+    $_SESSION["nama"] = $row["nama"];
+    $_SESSION["role"] = $row["role"];
+       
+    if (isset($_POST['rememberMe'])) {
+            setcookie('nama', $row['nama'], time()+600, "/");
+            setcookie('email', $row['email'], time()+600, "/");
+    }
+
+    if($row['role'] === 'admin') {
         $_SESSION["login"] = true;
         header("Location: ../admin/admin.php");
         exit;
-      } if($row['role'] === 'user')
-        // setcookie('Nama')
+    } if($row['role'] === 'user')
         header("Location: ../index.html");
         exit;
-     }
+    }
      echo" <script>alert('email atau kata sandi salah')</script>";
-    } 
+    }
     
 
 ?>

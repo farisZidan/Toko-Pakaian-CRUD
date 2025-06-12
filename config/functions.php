@@ -139,7 +139,7 @@ function registrasi($data) {
     // Enkripsi password
     $password = password_hash($password, PASSWORD_DEFAULT);
 
-    mysqli_query($conn, "INSERT INTO user VALUES('', '$nama', '$email', '$password', '')");
+    mysqli_query($conn, "INSERT INTO user (nama, email, password) VALUES('$nama', '$email', '$password')");
 
     return mysqli_affected_rows($conn);
 }
