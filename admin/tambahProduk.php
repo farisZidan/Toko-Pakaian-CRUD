@@ -60,7 +60,7 @@ if (isset($_POST['submit'])) {
 
                     <div class="mb-3">
                         <label for="stok" class="form-label">Stok Produk</label>
-                        <input type="number" class="form-control" id="stok" name="Stok" required min="0">
+                        <input type="number" class="form-control" id="stok" name="Stok" min="0">
                         <div class="form-number">Masukkan stok produk</div>
                     </div>
                     
@@ -82,7 +82,7 @@ if (isset($_POST['submit'])) {
                     
                     <div class="mb-4">
                         <label for="deskripsi" class="form-label">Deskripsi Produk</label>
-                        <textarea class="form-control" id="deskripsi" name="Deskripsi" rows="5" required></textarea>
+                        <textarea class="form-control" id="deskripsi" name="Deskripsi" rows="5"></textarea>
                     </div>
                     
                     <div class="d-flex justify-content-between">

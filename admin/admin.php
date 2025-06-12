@@ -11,7 +11,7 @@ require '../config/functions.php';
 $halamanAktif = $_GET["halaman"] ?? 1;
 $keyword = $_GET['keyword'] ?? '';
 $isSearching = !empty($keyword);
-$jumlahDataPerHalaman = 5;
+$jumlahDataPerHalaman = $_GET['view'] ?? 5; // Default to 5 items per page
 
 //Menekan tombol cari
 if ($isSearching) {
@@ -58,6 +58,11 @@ $counter = $awalData + 1;
         .search-box {
             max-width: 300px;
         }
+        .form-label {
+            font-weight: 500;
+            font-size: 0.8rem;
+            opacity: 0.8;
+        }
     </style>
 </head>
 <body class="bg-light">
@@ -71,18 +76,32 @@ $counter = $awalData + 1;
             </a>
         </div>
 
+        <!-- Header nav -->
         <div class="card shadow-sm">
             <div class="card-header bg-white py-3 d-flex justify-content-between align-items-center">
+                <div class="d-flex flex-column">
                  <form method="get" class="d-flex search-box">
-                     <input type="text" class="form-control me-2" placeholder="Cari produk..." name="keyword" autocomplete="off">
+                     <input type="text" class="me-2" placeholder="Cari produk..." name="keyword" autocomplete="off" value="<?= htmlspecialchars($keyword) ?>">
                      <input type="hidden" name="halaman" value="1">
+                     <input type="hidden" name="view" value="<?= $jumlahDataPerHalaman ?>">
                      <button type="submit" class="btn btn-primary" name="cari">
                       <i class="fas fa-search"></i>
                      </button>
                  </form>
-                 <form action="post">
-                    <input type="number" name="jumlahDataPerHalaman" id="jumlahDataPerhalaman">
+                 <form method="get" class="d-flex justify-content-start align-items-center">
+                    <label for="view" class="form-label mb-1">Show:</label>
+                    <select name="view" id="view"  onchange="this.form.submit()" class="form-control form-select form-select-sm">
+                        <option value="5" <?= $jumlahDataPerHalaman == 5 ? 'selected' : '' ?>>5</option>
+                        <option value="10" <?= $jumlahDataPerHalaman == 10 ? 'selected' : '' ?>>10</option>
+                        <option value="15" <?= $jumlahDataPerHalaman == 15 ? 'selected' : '' ?>>15</option>
+                        <option value="20" <?= $jumlahDataPerHalaman == 20 ? 'selected' : '' ?>>20</option>
+                    </select>
+                    <?php if ($isSearching) : ?>
+                    <input type="hidden" name="keyword" value="<?= htmlspecialchars($keyword) ?>">
+                    <?php endif; ?>
+                    <input type="hidden" name="halaman" value="1">
                  </form>
+                </div>
                 
                 <div class="d-flex align-items-center">
                     <form method="post" class="me-2">
@@ -138,8 +157,10 @@ $counter = $awalData + 1;
                     </table>
                 </div>
             </div>
-             <!-- Navigasi Pagination -->
-              <div class="my-3 mx-auto">
+        </div>
+        <!-- Navigasi Pagination -->
+        <?php if ($jumlahdata > $jumlahDataPerHalaman) : ?>
+            <div class="d-flex my-2 mx-auto">
                  <nav aria-label="Page navigation" class="mx-auto">
                     <ul class="pagination pagination-sm mb-0">
                       <?php if ($halamanAktif > 1) : ?>
@@ -163,8 +184,8 @@ $counter = $awalData + 1;
                       <?php endif; ?>
                     </ul>
                  </nav>
-             </div>
-        </div>
+            </div>
+        <?php endif; ?>
     </div>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 </body>
