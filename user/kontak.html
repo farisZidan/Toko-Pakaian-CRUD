@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Kontak Kami</title>
+    <style>
+      body {
+        font-family: Arial, sans-serif;
+        background-color: #f1f5f9;
+        height: 100vh;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+      }
+
+      .container {
+        max-width: 400px;
+        width: 100%;
+        margin: auto;
+        background: white;
+        padding: 40px;
+        border-radius: 15px;
+        box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+      }
+
+      h1 {
+        text-align: center;
+        margin-bottom: 25px;
+        color: #030504fe;
+      }
+
+      .contact-info {
+        margin-bottom: 25px;
+      }
+
+      button {
+        display: block;
+        width: 100%;
+        padding: 10px;
+        background-color: #030504fe;
+        color: white;
+        border: none;
+        border-radius: 10px;
+        cursor: pointer;
+        margin-bottom: 5px;
+      }
+
+      button:hover {
+        background-color: #48312b;
+      }
+
+      .hidden {
+        display: none;
+      }
+
+      #message {
+        text-align: center;
+        margin-top: 10px;
+        color: green;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <h1>Kontak Kami</h1>
+      <div class="contact-info">
+        <p><strong>Email:</strong> <span id="email">info@example.com</span></p>
+        <p>
+          <strong>Telepon:</strong> <span id="phone">+62 123 456 7890</span>
+        </p>
+        <p>
+          <strong>Alamat:</strong>
+          <span id="address">Jl. Contoh No. 123, Jakarta</span>
+        </p>
+      </div>
+      <button id="copyButton">Salin Kontak</button>
+      <a href="produk.html"><button>Kembali</button></a>
+      <p id="message" class="hidden"></p>
+    </div>
+    <script>
+      document
+        .getElementById("copyButton")
+        .addEventListener("click", function () {
+          const email = document.getElementById("email").innerText;
+          const phone = document.getElementById("phone").innerText;
+          const address = document.getElementById("address").innerText;
+
+          const contactInfo = `Email: ${email}\nTelepon: ${phone}\nAlamat: ${address}`;
+
+          navigator.clipboard
+            .writeText(contactInfo)
+            .then(() => {
+              const message = document.getElementById("message");
+              message.innerText = "Kontak berhasil disalin!";
+              message.classList.remove("hidden");
+
+              setTimeout(() => {
+                message.classList.add("hidden");
+              }, 2000);
+            })
+            .catch((err) => {
+              console.error("Gagal menyalin: ", err);
+            });
+        });
+    </script>
+  </body>
+</html>

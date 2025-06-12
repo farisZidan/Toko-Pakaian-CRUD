@@ -1,0 +1,294 @@
+<!DOCTYPE html>
+<html lang="id">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>RB gallery</title>
+    <link
+      href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap"
+      rel="stylesheet"
+    />
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+      body {
+        font-family: "Poppins", sans-serif;
+        line-height: 1.6;
+      }
+      .header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        background-color: #f8f8f8;
+        padding: 15px 50px;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+      }
+      .header .logo {
+        font-size: 24px;
+        font-weight: bold;
+        color: #333;
+      }
+      .header .menu {
+        list-style: none;
+        display: flex;
+        gap: 20px;
+      }
+      .header .menu li a {
+        text-decoration: none;
+        font-size: 16px;
+        color: #333;
+        transition: color 0.3s;
+      }
+      .header .menu li a:hover {
+        color: #48312b;
+        text-decoration: underline;
+      }
+      .hero {
+        position: relative;
+        width: 100%;
+        height: 80vh;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        background-image: url("img/beranda\ batik.jpg"); /* Ganti dengan gambar lokal */
+        background-size: cover;
+        background-position: center;
+      }
+      .hero .hero-text {
+        text-align: center;
+        color: #fff;
+        text-shadow: 1px 4px 8px black;
+      }
+      .hero .hero-text h1 {
+        font-size: 48px;
+        font-weight: bold;
+        margin-bottom: 10px;
+      }
+      .hero .hero-text p {
+        font-size: 18px;
+        margin-bottom: 20px;
+      }
+      .hero .hero-text a {
+        text-decoration: none;
+        font-size: 18px;
+        color: #fff;
+        background-color: #030504fe;
+        padding: 10px 20px;
+        border-radius: 5px;
+        transition: background-color 0.3s;
+      }
+      .hero .hero-text a:hover {
+        background-color: #48312b;
+      }
+      .section {
+        padding: 50px 20px;
+        background-color: #f9f9f9;
+        opacity: 0; /* Default hidden */
+        transform: translateY(50px); /* Default position */
+        transition: opacity 1s, transform 1s;
+      }
+      .section.visible {
+        opacity: 1;
+        transform: translateY(0);
+      }
+      .section h2 {
+        font-size: 36px;
+        margin-bottom: 20px;
+        text-align: center;
+      }
+      .section p {
+        max-width: 800px;
+        margin: 0 auto;
+        font-size: 16px;
+        color: #555;
+        line-height: 1.8;
+        text-align: center;
+      }
+      .products-section {
+        background-color: #f4f4f4;
+        padding: 40px 0;
+      }
+      .products-section h2 {
+        text-align: center;
+        font-size: 36px;
+        color: #333;
+        margin-bottom: 30px;
+      }
+      .products-grid {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 30px;
+        padding: 0 20px;
+      }
+      .product-card {
+        background-color: white;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        border-radius: 8px;
+        overflow: hidden;
+        text-align: center;
+        transition: transform 0.3s;
+      }
+      .product-card img {
+        width: 100%;
+        height: 200px;
+        object-fit: cover;
+      }
+      .product-card h3 {
+        font-size: 20px;
+        margin: 15px 0;
+        color: #333;
+      }
+      .product-card p {
+        font-size: 16px;
+        color: #777;
+        margin-bottom: 20px;
+      }
+      .product-card a {
+        display: inline-block;
+        font-size: 16px;
+        color: #48312b;
+        text-decoration: none;
+        padding: 10px 20px;
+        border-radius: 5px;
+        transition: background-color 0.3s;
+      }
+      .product-card:hover {
+        transform: translateY(-5px);
+      }
+      .product-card a:hover {
+        background-color: #f0f0f0;
+      }
+      .footer {
+        text-align: center;
+        background-color: #f8f8f8;
+        padding: 10px;
+        font-size: 14px;
+        color: #555;
+      }
+
+      /* Media Queries for Responsiveness */
+      @media (max-width: 768px) {
+        .header {
+          padding: 15px 20px; /* Mengurangi padding pada header untuk perangkat kecil */
+        }
+        .header .logo {
+          font-size: 20px; /* Mengurangi ukuran font logo */
+        }
+        .header .menu {
+          flex-direction: column; /* Mengubah menu menjadi vertikal */
+          gap: 10px; /* Mengurangi jarak antara menu */
+        }
+        .hero {
+          height: 60vh; /* Mengurangi tinggi hero untuk perangkat kecil */
+        }
+        .hero .hero-text h1 {
+          font-size: 36px; /* Mengurangi ukuran font judul */
+        }
+        .hero .hero-text p {
+          font-size: 16px; /* Mengurangi ukuran font paragraf */
+        }
+        .section {
+          padding: 30px 10px; /* Mengurangi padding section untuk perangkat kecil */
+        }
+        .products-grid {
+          grid-template-columns: repeat(
+            2,
+            1fr
+          ); /* Menyesuaikan grid produk menjadi 2 kolom untuk perangkat kecil */
+        }
+        .product-card img {
+          height: 150px; /* Mengurangi tinggi gambar produk */
+        }
+        .footer {
+          font-size: 12px; /* Mengurangi ukuran font footer */
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <header class="header">
+      <div class="logo">RB Gallery</div>
+      <ul class="menu">
+        <li><a href="login signin/login.php">Login</a></li>
+        <li><a href="login signin/signin.php">Sign In</a></li>
+        <li><a href="#about">Tentang Kami</a></li>
+      </ul>
+    </header>
+
+    <section class="hero">
+      <div class="hero-text">
+        <h1>Pakaian Batik terbaik untuk anda</h1>
+        <p>Batik dengan kelembutan yang sangat halus</p>
+        <a href="products/produk.php">Belanja Sekarang</a>
+      </div>
+    </section>
+
+    <section class="section about-us">
+      <h2 id="about">Tentang Kami</h2>
+      <p>
+        Kami adalah produsen batik yang mengutamakan kualitas, keindahan motif,
+        dan kenyamanan. RB Gallery hadir untuk memenuhi kebutuhan Anda akan
+        batik yang elegan dan tradisional, cocok untuk berbagai acara formal
+        maupun santai, dengan desain yang khas dan bahan berkualitas tinggi.
+      </p>
+    </section>
+
+    <section class="section store-details">
+      <h2>Tentang Toko RB Gallery</h2>
+      <p>
+        RB Gallery adalah penyedia batik premium dengan sentuhan khas yang kaya
+        akan nilai seni dan budaya. Kami menawarkan berbagai pilihan batik
+        dengan motif unik dan bahan terbaik, memastikan kenyamanan Anda dalam
+        setiap aktivitas. Dengan komitmen pada kepuasan pelanggan, kami juga
+        menyediakan layanan pelanggan yang profesional dan proses pembelian yang
+        mudah dan aman.
+      </p>
+    </section>
+
+    <section class="products-section">
+      <h2>Produk Terbaru Kami</h2>
+      <div class="products-grid">
+        <div class="product-card">
+          <img src="img/Batik 8.jpg" alt="Produk 1" />
+          <h3>Batik Flora modern</h3>
+          <p>Corak yang simple dan elegan.</p>
+          <a href="products/produk-detail1.html">Lihat Detail</a>
+        </div>
+        <div class="product-card">
+          <img src="img/Batik 4.jpg" alt="Produk 2" />
+          <h3>Batik Fauna modern</h3>
+          <p>Motif Fauna yang elegan dan mewah.</p>
+          <a href="products/produk-detail2.html">Lihat Detail</a>
+        </div>
+        <div class="product-card">
+          <img src="img/Batik 9.jpg" alt="Produk 3" />
+          <h3>Batik Flora simple</h3>
+          <p>Motif dan Warna simple</p>
+          <a href="products/produk-detail3.html">Lihat Detail</a>
+        </div>
+      </div>
+    </section>
+
+    <footer class="footer">
+      &copy; 2024 Batik Mabar. Semua Hak Dilindungi.
+    </footer>
+
+    <script>
+      const sections = document.querySelectorAll(".section");
+
+      window.addEventListener("scroll", () => {
+        sections.forEach((section) => {
+          const sectionTop = section.getBoundingClientRect().top;
+          const triggerHeight = window.innerHeight * 0.8;
+
+          if (sectionTop < triggerHeight) {
+            section.classList.add("visible");
+          }
+        });
+      });
+    </script>
+  </body>
+</html>

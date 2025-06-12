@@ -1,0 +1,319 @@
+<!DOCTYPE html>
+<html lang="id">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Form Pemesanan Sarung RB Gallery</title>
+    <link
+      href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap"
+      rel="stylesheet"
+    />
+    <link
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css"
+      rel="stylesheet"
+    />
+    <style>
+      /* Global Styles */
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+      body {
+        font-family: "Poppins", sans-serif;
+        background-color: #f1f5f9;
+        color: #1f2937;
+        margin: 0;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        min-height: 100vh;
+      }
+
+      /* Container Style */
+      .container {
+        width: 100%;
+        max-width: 700px;
+        margin: 20px;
+        padding: 40px;
+        background-color: white;
+        border-radius: 15px;
+        box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+      }
+
+      h2 {
+        text-align: center;
+        font-size: 30px;
+        font-weight: 600;
+        margin-bottom: 25px;
+        color: #3b82f6;
+      }
+
+      label {
+        font-size: 14px;
+        font-weight: 500;
+        margin-bottom: 6px;
+        display: block;
+        color: #4b5563;
+      }
+
+      input,
+      textarea,
+      select {
+        width: 100%;
+        padding: 12px 16px;
+        margin-bottom: 20px;
+        border: 1px solid #d1d5db;
+        border-radius: 10px;
+        font-size: 14px;
+        background-color: #f9fafb;
+        transition: all 0.3s ease;
+      }
+
+      input:focus,
+      textarea:focus,
+      select:focus {
+        border-color: #3b82f6;
+        background-color: #fff;
+        box-shadow: 0 0 0 4px rgba(59, 130, 246, 0.2);
+        outline: none;
+      }
+
+      textarea {
+        resize: vertical;
+        min-height: 120px;
+      }
+
+      button {
+        width: 100%;
+        padding: 15px;
+        background-color: #3b82f6;
+        color: white;
+        font-size: 16px;
+        font-weight: 600;
+        border: none;
+        border-radius: 10px;
+        cursor: pointer;
+        transition: background-color 0.3s;
+      }
+
+      button:hover {
+        background-color: #2563eb;
+      }
+
+      /* Payment Option Styling */
+      .payment-options {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 20px;
+        margin-bottom: 30px;
+      }
+
+      .payment-option {
+        text-align: center;
+        padding: 15px;
+        border: 1px solid #d1d5db;
+        border-radius: 10px;
+        background-color: #f9fafb;
+        cursor: pointer;
+        transition: all 0.3s ease;
+      }
+
+      .payment-option:hover {
+        border-color: #3b82f6;
+        background-color: #eff6ff;
+      }
+
+      .payment-option i {
+        font-size: 24px;
+        margin-bottom: 8px;
+        color: #3b82f6;
+      }
+
+      .payment-option label {
+        display: block;
+        font-weight: 600;
+        font-size: 14px;
+        color: #1f2937;
+      }
+
+      /* Footer Style */
+      footer {
+        text-align: center;
+        font-size: 14px;
+        margin-top: 20px;
+        color: #6b7280;
+      }
+
+      footer a {
+        text-decoration: none;
+        color: #3b82f6;
+        font-weight: 600;
+      }
+
+      footer a:hover {
+        text-decoration: underline;
+      }
+
+      /* Modal Styles */
+      .modal {
+        display: none; /* Hidden by default */
+        position: fixed; /* Stay in place */
+        z-index: 1000; /* Sit on top */
+        left: 0;
+        top: 0;
+        width: 100%; /* Full width */
+        height: 100%; /* Full height */
+        overflow: auto; /* Enable scroll if needed */
+        background-color: rgba(0, 0, 0, 0.5); /* Black w/ opacity */
+        justify-content: center;
+        align-items: center;
+        opacity: 0; /* Initial opacity for fade effect */
+        transition: opacity 0.5s ease; /* Smooth transition */
+      }
+
+      .modal.show {
+        display: flex; /* Show flex when class added */
+        opacity: 1; /* Fade in */
+      }
+
+      .modal-content {
+        background-color: white;
+        padding: 20px;
+        border-radius: 10px;
+        text-align: center;
+      }
+
+      .close-button {
+        margin-top: 20px;
+        padding: 10px 20px;
+        background-color: #3b82f6;
+        color: white;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+        transition: background-color 0.3s;
+      }
+
+      .close-button:hover {
+        background-color: #2563eb;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <h2>Form Pemesanan Sarung RB Gallery</h2>
+
+      <!-- Name Field -->
+      <label for="name">Nama Lengkap</label>
+      <input
+        type="text"
+        id="name"
+        name="name"
+        required
+        placeholder="Masukkan nama lengkap"
+      />
+
+      <!-- Address Field -->
+      <label for="address">Alamat Pengiriman</label>
+      <textarea
+        id="address"
+        name="address"
+        rows="4"
+        required
+        placeholder="Masukkan alamat lengkap"
+      ></textarea>
+
+      <!-- Phone Field -->
+      <label for="phone">Nomor Telepon</label>
+      <input
+        type="tel"
+        id="phone"
+        name="phone"
+        required
+        placeholder="Masukkan nomor telepon"
+      />
+
+      <!-- Payment Method Section -->
+      <label for="payment">Metode Pembayaran</label>
+      <select id="payment" name="payment" required>
+        <option value="bank_transfer">Transfer Bank</option>
+        <option value="cod">Cash On Delivery</option>
+        <option value="credit_card">Kartu Kredit</option>
+      </select>
+
+      <div class="payment-options">
+        <div class="payment-option">
+          <i class="fas fa-university"></i>
+          <label for="payment-bank">Transfer Bank</label>
+        </div>
+        <div class="payment-option">
+          <i class="fas fa-money-bill-wave"></i>
+          <label for="payment-cod">Cash On Delivery</label>
+        </div>
+        <div class="payment-option">
+          <i class="fas fa-credit-card"></i>
+          <label for="payment-cc">Kartu Kredit</label>
+        </div>
+      </div>
+
+      <!-- Submit Button -->
+      <button id="submit-button">Submit pesanan</button>
+
+      <!-- Footer Section -->
+      <footer>
+        <p>© RB gallery | <a href="#">Kebijakan Privasi</a></p>
+      </footer>
+    </div>
+
+    <!-- Modal for order confirmation -->
+    <div id="orderModal" class="modal">
+      <div class="modal-content">
+        <h3>😊 Terima Kasih, Pemesanan Anda Telah Diterima!</h3>
+        <p>
+          Pesanan Anda akan segera diproses dan dikirim ke alamat yang Anda
+          berikan.
+        </p>
+        <button class="close-button" id="close-modal">
+          Kembali ke Halaman Utama
+        </button>
+      </div>
+    </div>
+
+    <script>
+      // Get modal element
+      const modal = document.getElementById("orderModal");
+      // Get submit button
+      const submitButton = document.getElementById("submit-button");
+      // Get close button
+      const closeButton = document.getElementById("close-modal");
+
+      // Show modal on submit button click
+      submitButton.onclick = function () {
+        modal.classList.add("show"); // Add class to show modal
+      };
+
+      // Close modal and redirect to index.html
+      closeButton.onclick = function () {
+        modal.classList.remove("show"); // Remove class to hide modal
+        location.href = "index.html"; // Redirect to the homepage
+      };
+
+      // Close the modal if the user clicks outside of it
+      window.onclick = function (event) {
+        if (event.target == modal) {
+          modal.classList.remove("show"); // Remove class to hide modal
+        }
+      };
+      // Pre-fill form with user data if available
+      document.addEventListener("DOMContentLoaded", function () {
+        // You can add logic here to pre-fill the form with cart data
+        // or user data if you want to implement that feature
+
+        // Example: Get cart from localStorage
+        const cart = JSON.parse(localStorage.getItem("cart")) || [];
+        console.log("Cart items:", cart);
+      });
+    </script>
+  </body>
+</html>

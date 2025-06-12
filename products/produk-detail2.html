@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="id">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Detail Produk - RB Gallery</title>
+    <link
+      href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap"
+      rel="stylesheet"
+    />
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+      body {
+        font-family: "Poppins", sans-serif;
+        line-height: 1.6;
+        display: flex;
+        flex-direction: column;
+        min-height: 100vh;
+      }
+      .header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        background-color: #f8f8f8;
+        padding: 15px 50px;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+      }
+      .header .logo a {
+        font-size: 24px;
+        font-weight: bold;
+        color: #333;
+        text-decoration: none;
+      }
+      .header .menu {
+        list-style: none;
+        display: flex;
+        gap: 20px;
+      }
+      .header .menu li a {
+        text-decoration: none;
+        font-size: 16px;
+        color: #333;
+        transition: color 0.3s;
+      }
+      .header .menu li a:hover {
+        color: #007bff;
+      }
+      .product-detail {
+        padding: 40px 20px;
+        max-width: 1200px;
+        margin: 0 auto;
+        flex: 1;
+      }
+      .carousel {
+        width: 100%;
+        height: 500px;
+        overflow: hidden;
+        position: relative;
+      }
+      .carousel-images {
+        display: flex;
+        transition: transform 1s ease;
+      }
+      .carousel-images img {
+        width: 100%;
+        height: 500px;
+        object-fit: cover;
+      }
+      .product-detail h1 {
+        font-size: 36px;
+        margin: 20px 0;
+      }
+      .product-detail p {
+        font-size: 18px;
+        color: #777;
+        margin-bottom: 20px;
+        line-height: 1.8;
+      }
+      .back-btn {
+        display: inline-block;
+        font-size: 16px;
+        color: #fff;
+        background-color: #030504fe;
+        padding: 10px 20px;
+        border-radius: 5px;
+        text-decoration: none;
+      }
+      .back-btn:hover {
+        background-color: #48312b;
+      }
+      .footer {
+        text-align: center;
+        background-color: #f8f8f8;
+        padding: 10px;
+        font-size: 14px;
+        color: #555;
+      }
+    </style>
+  </head>
+  <body>
+    <header class="header">
+      <div class="logo"><a href="../index.html">RB Gallery</a></div>
+      <ul class="menu">
+        <li><a href="../login signin/login.php">Login</a></li>
+        <li><a href="../login signin/signin.php">Sign In</a></li>
+        <li><a href="../index.html#about">Tentang Kami</a></li>
+      </ul>
+    </header>
+
+    <section class="product-detail">
+      <div class="carousel">
+        <div class="carousel-images">
+          <!-- Masukkan URL gambar lokal di sini -->
+          <img src="../img/Batik 8.jpg" alt="Batik 2" />
+          <img src="../img/Batik 6.jpg" alt="Batik 2" />
+          <img src="../img/Batik 7.jpg" alt="Batik 2" />
+        </div>
+      </div>
+      <h1>Batik Fauna Modern</h1>
+      <p>
+        Batik fauna modern menggambarkan hewan dengan sentuhan artistik
+        inovatif, menciptakan kesan elagan dan unik dalam gaya modern.
+      </p>
+      <a href="produk.php" class="back-btn">Produk Lainnya</a>
+    </section>
+
+    <footer class="footer">
+      &copy; 2024 Batik Mabar. Semua Hak Dilindungi.
+    </footer>
+
+    <script>
+      let currentIndex = 0;
+      const images = document.querySelectorAll(".carousel-images img");
+      const totalImages = images.length;
+
+      function changeImage() {
+        currentIndex = (currentIndex + 1) % totalImages;
+        document.querySelector(
+          ".carousel-images"
+        ).style.transform = `translateX(-${currentIndex * 100}%)`;
+      }
+
+      setInterval(changeImage, 3000); // Ganti gambar setiap 3 detik
+    </script>
+  </body>
+</html>
