@@ -1,8 +1,7 @@
 <?php 
 session_start();
 
-$login = $_SESSION['login'] && ($_SESSION["role"] == "admin") || ($_COOKIE['nama'] == 'Admin') && ($_COOKIE['role'] == 'admin');
-
+$login = $_SESSION['login'] && ($_SESSION["role"] == "admin");
 
 if(!$login) {
     header("Location: ../index.html");
@@ -135,11 +134,9 @@ $counter = $awalData + 1;
     <a href="tambahProduk.php" class="btn btn-success btn-md px-3 py-2">
         <i class="fas fa-plus me-1"></i> Tambah Produk
     </a>
-    <form method="post" class="me-2">
-        <button type="submit" name="cetak" class="btn btn-secondary btn-md text-white px-3 py-2">
-            <i class="bi bi-printer me-1"></i> Cetak Laporan
-        </button>
-    </form>
+    <a href="../include/print.php" class="btn btn-secondary btn-md px-3 py-2">
+        <i class="fas fa-save me-1"></i> Print Laporan
+    </a>
 </div>
         </div>
      </div>
@@ -154,6 +151,7 @@ $counter = $awalData + 1;
                                 <th>Kode</th>
                                 <th>Gambar</th>
                                 <th>Nama</th>
+                                <th>Ukuran</th>
                                 <th>Stok</th>
                                 <th>Harga</th>
                                 <th>Deskripsi</th>
@@ -167,24 +165,23 @@ $counter = $awalData + 1;
                                     <a href="ubah.php?Kode=<?= $row["Kode"]; ?>" class="btn btn-sm btn-warning" title="Ubah">
                                         <i class="fas fa-edit"></i>
                                     </a>
-                                    <a href="hapus.php?Kode=<?= $row["Kode"]; ?>" class="btn btn-sm btn-danger" onclick="return confirm('Yakin ingin menghapus produk ini?');" title="Hapus">
+                                    <a href="hapus.php?Kode=<?= urlencode($row["Kode"]); ?> &Gambar= <?= urlencode($row["Gambar"]); ?>)" class="btn btn-sm btn-danger" onclick="return confirm('Yakin ingin menghapus produk ini?');" title="Hapus">
                                         <i class="fas fa-trash-alt"></i>
                                     </a>
                                 </td>
                                 <td><?= htmlspecialchars($row["Kode"]); ?></td>
-                                <td>
-                                <?php if(!empty($row["Gambar"])): ?>
-                                    <img src="../img/<?= htmlspecialchars($row["Gambar"]); ?>" 
-                                        alt="<?= htmlspecialchars($row["Nama"]); ?>" 
-                                        class="product-img">
-                                <?php else: ?>
-                                    <img src="../img/Null-Image.png" 
-                                        alt="<?= htmlspecialchars($row["Nama"]); ?>" 
-                                        class="product-img">
-                                <?php endif; ?>
-
+                               <td>
+                                <img src="../img/<?= htmlspecialchars($row["Gambar"])?>" 
+                                    alt="<?= htmlspecialchars($row["Nama"]) ?>" 
+                                    class="product-img"
+                                    onerror="this.src='../img/Null-Image.png'">
+                                </td>
                                 <td><?= htmlspecialchars($row["Nama"]); ?></td>
-                                <td><?= htmlspecialchars($row["Stok"]); ?></td>
+                                <td>S: <?= htmlspecialchars($row["Ukuran_S"]); ?> ||
+                                M: <?= htmlspecialchars($row["Ukuran_M"]); ?> <br>
+                                L: <?= htmlspecialchars($row["Ukuran_L"]); ?> ||
+                                XL: <?= htmlspecialchars($row["Ukuran_XL"]); ?></td>
+                                <td><?= htmlspecialchars($row["Ukuran_S"] + $row["Ukuran_M"] + $row["Ukuran_L"] + $row["Ukuran_XL"]); ?></td>
                                 <td>Rp <?= htmlspecialchars(number_format($row["Harga"], 0, ',', '.')); ?></td>
                                 <td><?= htmlspecialchars(substr($row["Deskripsi"], 0, 50) . (strlen($row["Deskripsi"]) > 50 ? '...' : '')); ?></td>
                             </tr>

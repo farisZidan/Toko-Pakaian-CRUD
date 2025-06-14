@@ -7,8 +7,9 @@ if(!isset($_SESSION["login"])) {
 require '../config/functions.php';
 
 $kode = $_GET['Kode'];
+$gambar = $_GET['Gambar'];
 
-if(hapus($kode) > 0 ) {
+if(hapus($kode, $gambar) > 0) {
     echo "
         <script>
         alert('Data berhasil dihapus !');
@@ -19,7 +20,7 @@ if(hapus($kode) > 0 ) {
     echo "
         <script>
         alert('Data gagal dihapus !');
-        document.location.href = 'admin.php';
+        // document.location.href = 'admin.php';
         </script>
         ";
 }

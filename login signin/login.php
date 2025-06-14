@@ -2,8 +2,6 @@
 session_start();
 require '../config/functions.php';
 
-
-
 if(isset($_POST["masuk"])) {
 
   $email = $_POST["email"];

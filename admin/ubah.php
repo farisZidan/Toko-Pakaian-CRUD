@@ -55,8 +55,9 @@ if (isset($_POST['submit'])) {
 <body class="bg-light">
     <div class="container py-5">
         <div class="card shadow-sm form-container">
-            <div class="card-header bg-primary text-white">
+            <div class="card-header bg-primary text-white d-flex align-items-center justify-content-between">
                 <h1 class="h4 mb-0"><i class="fas fa-edit me-2"></i>Ubah Data Barang</h1>
+                <h1 class="h4 mb-0"><a href="admin.php" class="h4"><i class="fas fa-arrow-circle-left"></i></a></h1>
             </div>
             
             <div class="card-body">
@@ -78,8 +79,13 @@ if (isset($_POST['submit'])) {
                         <div class="col-md-10"><?= htmlspecialchars($produk["Nama"]); ?></div>
                     </div>
                     <div class="row mt-2">
-                        <div class="col-md-2 fw-bold">Stok:</div>
-                        <div class="col-md-10"><?= htmlspecialchars($produk["Stok"]); ?></div>
+                        <div class="col-md-2 fw-bold">Ukuran:</div>
+                        <div class="col-md-10">
+                        S: <?= htmlspecialchars($produk["Ukuran_S"]); ?> ||
+                        M: <?= htmlspecialchars($produk["Ukuran_M"]); ?> ||
+                        L: <?= htmlspecialchars($produk["Ukuran_L"]); ?> ||
+                        XL: <?= htmlspecialchars($produk["Ukuran_XL"]); ?>
+                    </div>
                     </div>
                     <div class="row mt-2">
                         <div class="col-md-2 fw-bold">Harga:</div>
@@ -106,12 +112,35 @@ if (isset($_POST['submit'])) {
                         <input type="text" class="form-control" id="nama" name="Nama" 
                                value="<?= htmlspecialchars($produk["Nama"]); ?>">
                     </div>
+                   <div class="mb-3"> <label class="form-label">Ukuran Produk:</label> <div class="row g-2"> <div class="col-auto"> <div class="input-group">
+                <span class="input-group-text">S</span>
+                <input type="number" class="form-control" name="Ukuran_S" 
+                       value="<?= htmlspecialchars($produk["Ukuran_S"]); ?>" style="max-width: 60px;"> 
+            </div>
+        </div>
 
-                    <div class="mb-3">
-                        <label for="stok" class="form-label">Stok</label>
-                        <input type="number" class="form-control" id="stok" name="Stok" 
-                               value="<?= htmlspecialchars($produk["Stok"]); ?>">
-                    </div>
+        <div class="col-auto">
+            <div class="input-group">
+                <span class="input-group-text">M</span> <input type="number" class="form-control" name="Ukuran_M" 
+                       value="<?= htmlspecialchars($produk["Ukuran_M"]); ?>" style="max-width: 60px;">
+            </div>
+        </div>
+
+        <div class="col-auto">
+            <div class="input-group">
+                <span class="input-group-text">L</span> <input type="number" class="form-control" name="Ukuran_L" 
+                       value="<?= htmlspecialchars($produk["Ukuran_L"]); ?>" style="max-width: 60px;">
+            </div>
+        </div>
+
+        <div class="col-auto">
+            <div class="input-group">
+                <span class="input-group-text">XL</span> <input type="number" class="form-control" name="Ukuran_XL" 
+                       value="<?= htmlspecialchars($produk["Ukuran_XL"]); ?>" style="max-width: 60px;">
+            </div>
+        </div>
+    </div>
+</div>
                     
                     <div class="mb-3">
                         <label for="harga" class="form-label">Harga</label>

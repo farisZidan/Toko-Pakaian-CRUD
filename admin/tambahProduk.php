@@ -46,8 +46,9 @@ if (isset($_POST['submit'])) {
 <body class="bg-light">
     <div class="container py-5">
         <div class="card shadow-sm form-container">
-            <div class="card-header bg-success text-white">
+            <div class="card-header bg-success text-white d-flex justify-content-between align-items-center">
                 <h1 class="h4 mb-0"><i class="fas fa-plus-circle me-2"></i>Tambah Produk Baru</h1>
+                <h1 class="h4 mb-0"><a href="admin.php" class="h4"><i class="fas fa-arrow-circle-left"></i></a></h1>
             </div>
             
             <div class="card-body">
@@ -58,11 +59,35 @@ if (isset($_POST['submit'])) {
                         <div class="form-text">Masukkan nama produk</div>
                     </div>
 
-                    <div class="mb-3">
-                        <label for="stok" class="form-label">Stok Produk</label>
-                        <input type="number" class="form-control" id="stok" name="Stok" min="0">
-                        <div class="form-number">Masukkan stok produk</div>
-                    </div>
+                     <div class="mb-3"> <label class="form-label">Ukuran Produk:</label> <div class="row g-2"> <div class="col-auto"> <div class="input-group">
+                <span class="input-group-text">S</span>
+                <input type="number" class="form-control" name="Ukuran_S" 
+                       value="<?= htmlspecialchars($produk["Ukuran_S"]); ?>" style="max-width: 60px;"> 
+            </div>
+        </div>
+
+        <div class="col-auto">
+            <div class="input-group">
+                <span class="input-group-text">M</span> <input type="number" class="form-control" name="Ukuran_M" 
+                       value="<?= htmlspecialchars($produk["Ukuran_M"]); ?>" style="max-width: 60px;">
+            </div>
+        </div>
+
+        <div class="col-auto">
+            <div class="input-group">
+                <span class="input-group-text">L</span> <input type="number" class="form-control" name="Ukuran_L" 
+                       value="<?= htmlspecialchars($produk["Ukuran_L"]); ?>" style="max-width: 60px;">
+            </div>
+        </div>
+
+        <div class="col-auto">
+            <div class="input-group">
+                <span class="input-group-text">XL</span> <input type="number" class="form-control" name="Ukuran_XL" 
+                       value="<?= htmlspecialchars($produk["Ukuran_XL"]); ?>" style="max-width: 60px;">
+            </div>
+        </div>
+    </div>
+</div>
                     
                     <div class="mb-3">
                         <label for="gambar" class="form-label">Gambar Produk</label>

@@ -266,7 +266,7 @@ $produk = select("SELECT * FROM barang");
                         <span class="price-discount">Rp<?= number_format($barangArr['Harga'] * 0.55, 0, ',', '.') ?></span>
                         <span class="price-original">Rp<?= number_format($barangArr['Harga'], 0, ',', '.') ?></span>
                     </div>
-            <a href="detail.php?Nama=<?= $barangArr['Nama'] ?>" class="product-btn">Beli Sekarang</a>
+            <a href="detail.php?Id=<?= $barangArr['Kode'] ?>" class="product-btn">Beli Sekarang</a>
           </div>
           </div>
            <?php endforeach; ?>
