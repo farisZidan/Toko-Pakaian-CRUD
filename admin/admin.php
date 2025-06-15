@@ -1,44 +1,27 @@
 <?php 
 session_start();
-
 $login = $_SESSION['login'] && ($_SESSION["role"] == "admin");
-
 if(!$login) {
     header("Location: ../index.html");
     exit;
 }
-
 require '../config/functions.php';
 
 //Pagination setup
 $halamanAktif = $_GET["halaman"] ?? 1;
-$keyword = $_GET['keyword'] ?? '';
 $isSearching = !empty($keyword);
 $jumlahDataPerHalaman = $_GET['show'] ?? 5; // Default to 5 items per page
 
-//Menekan tombol cari
-if ($isSearching) {
-    $jumlahdata = count(select("SELECT * FROM barang WHERE
-                Nama LIKE '%$keyword%' OR
-                Harga LIKE '%$keyword%'"));
-    $jumlahHalaman = ceil($jumlahdata / $jumlahDataPerHalaman);
-    $awalData = ($jumlahDataPerHalaman * $halamanAktif) - $jumlahDataPerHalaman;
-    $produk = select("SELECT * FROM barang WHERE
-                Nama LIKE '%$keyword%' OR
-                Harga LIKE '%$keyword%' ORDER BY Kode desc LIMIT $awalData, $jumlahDataPerHalaman");
-} else {
-    $jumlahdata = count(select("SELECT * FROM barang"));
-    $jumlahHalaman = ceil($jumlahdata / $jumlahDataPerHalaman);
-    $awalData = ($jumlahDataPerHalaman * $halamanAktif) - $jumlahDataPerHalaman;
-    $produk = select("SELECT * FROM barang ORDER BY Kode desc LIMIT $awalData, $jumlahDataPerHalaman");
-    
-}
+$jumlahdata = count(select("SELECT * FROM barang"));
+$jumlahHalaman = ceil($jumlahdata / $jumlahDataPerHalaman);
+$awalData = ($jumlahDataPerHalaman * $halamanAktif) - $jumlahDataPerHalaman;
+$produk = select("SELECT * FROM barang ORDER BY Kode desc LIMIT $awalData, $jumlahDataPerHalaman");
 
 //Menekan tombol cetak
 if (isset($_POST['cetak'])) {
     echo cetak();
 }
-$counter = $awalData + 1;
+$counter = 1;
 
 ?>
 <!DOCTYPE html>
@@ -104,14 +87,14 @@ $counter = $awalData + 1;
     <!-- Left side - Search and Show -->
     <div class="col-md-6">
     <div class="d-flex flex-column flex-md-row align-items-md-center">
-    <form method="get" class="d-flex search-box me-md-3 mb-2 mb-md-0">
-        <input type="text" class="form-control me-2" placeholder="Cari produk..." name="keyword" autocomplete="off" value="<?= htmlspecialchars($keyword) ?>">
+    <form class="d-flex search-box me-md-3 mb-2 mb-md-0">
+        <input type="text" id="searchKeyword" class="form-control me-2" placeholder="Cari produk..." autocomplete="off">
     <input type="hidden" name="halaman" value="1">
     <input type="hidden" name="show" value="<?= $jumlahDataPerHalaman ?>">
-    <button type="submit" class="btn btn-primary" name="cari"><i class="fas fa-search"></i></button>
     </form>
     
     <!-- Show per page -->
+    <div id="show">
     <form method="get" class="d-flex align-items-center">
     <label for="show" class="form-label mb-0 me-2">Show:</label>
     <select name="show" id="show" onchange="this.form.submit()" class="form-select form-select-sm">
@@ -120,9 +103,8 @@ $counter = $awalData + 1;
         <option value="15" <?= $jumlahDataPerHalaman == 15 ? 'selected' : '' ?>>15</option>
         <option value="20" <?= $jumlahDataPerHalaman == 20 ? 'selected' : '' ?>>20</option>
     </select>
-    <?php if ($isSearching) : ?>
-    <input type="hidden" name="keyword" value="<?= htmlspecialchars($keyword) ?>">
-    <?php endif; ?>
+    </div>
+
     <input type="hidden" name="halaman" value="1">
     </form>
     </div>
@@ -142,7 +124,7 @@ $counter = $awalData + 1;
 
 <!-- Table Data List -->
 <div class="card-body p-0">
-<div class="table-responsive">
+<div class="table-responsive" id="tableContainer">
 <table class="table table-hover mb-0">
     <thead class="table-light">
         <tr>
@@ -185,6 +167,7 @@ $counter = $awalData + 1;
 </div> <!-- End of Table Container -->
 
 <!-- Navigasi Pagination -->
+<div id="paginationContainer">
 <?php if ($jumlahdata > $jumlahDataPerHalaman) : ?>
 <div class="d-flex my-2 mx-auto">
 <nav aria-label="Page navigation" class="mx-auto">
@@ -205,7 +188,36 @@ $counter = $awalData + 1;
 </nav>
 </div>
 <?php endif; ?>
+</div>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
-<script></script>
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+
+const keyword = document.getElementById('searchKeyword');
+const tableData = document.getElementById('tableContainer');
+const pagination = document.getElementById('paginationContainer');
+const show = document.getElementById('show');
+
+keyword.addEventListener('input', function() {
+    const xhr = new XMLHttpRequest();
+    xhr.onreadystatechange = function() {
+    if (xhr.readyState === 4 && xhr.status === 200) {
+            tableData.innerHTML = xhr.responseText;
+            if(keyword.value.trim() !== '') {
+                    pagination.style.display = 'none';
+                    show.style.display = 'none';
+                } 
+
+                else {
+                    pagination.style.display = 'block';
+                    show.style.display = 'block';
+                }
+        }
+    };
+    xhr.open('GET', `../include/getKeyword.php?keyword=${encodeURIComponent(keyword.value)}`, true);
+    xhr.send();
+});
+});
+</script>
 </body>
 </html>

@@ -8,7 +8,7 @@ $produk = select("SELECT * FROM barang WHERE Kode = '$kode'")[0];
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title><?= $produk['nama'] ?></title>
+    <title><?= $produk['Nama'] ?></title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
@@ -19,80 +19,76 @@ $produk = select("SELECT * FROM barang WHERE Kode = '$kode'")[0];
     </style>
 </head>
 <body class="bg-gray-100">
-    <!-- Header Section -->
-    <header class="bg-white py-5 text-gray-800 text-center shadow-md">
-        <h1 class="text-2xl font-bold"><a href="index.html" class="text-black no-underline">RB Gallery</a></h1>
-        <nav class="mt-3">
-            <a href="../index.html" class="mx-5 font-semibold text-gray-800 no-underline hover:underline">Beranda</a>
-            <a href="produk.php" class="mx-5 font-semibold text-gray-800 no-underline hover:underline">Produk</a>
-            <a href="../user/kontak.html" class="mx-5 font-semibold text-gray-800 no-underline hover:underline">Contact</a>
-        </nav>
-        <!-- Cart Icon with count -->
-        <div class="absolute top-5 right-5 text-xl text-gray-800 cursor-pointer flex items-center" 
-             onclick="window.location.href='../user/cart.html';">
-            <i class="fas fa-shopping-cart"></i> 
-            <span id="cartCount" class="bg-red-500 text-white text-sm rounded-full px-2 ml-1">0</span>
-        </div>
-    </header>
+<!-- Header Section -->
+<header class="bg-white py-5 text-gray-800 text-center shadow-md">
+    <h1 class="text-2xl font-bold"><a href="index.html" class="text-black no-underline">RB Gallery</a></h1>
+    <nav class="mt-3">
+    <a href="../index.html" class="mx-5 font-semibold text-gray-800 no-underline hover:underline">Beranda</a>
+    <a href="produk.php" class="mx-5 font-semibold text-gray-800 no-underline hover:underline">Produk</a>
+    <a href="../user/kontak.html" class="mx-5 font-semibold text-gray-800 no-underline hover:underline">Contact</a>
+    </nav>
+    <!-- Cart Icon with count -->
+    <div class="absolute top-5 right-5 text-xl text-gray-800 cursor-pointer flex items-center" onclick="window.location.href='../user/cart.html';">
+    <i class="fas fa-shopping-cart"></i> 
+    <span id="cartCount" class="bg-red-500 text-white text-sm rounded-full px-2 ml-1 hidden">0</span>
+    </div>
+</header>
 
-    <!-- Product Detail Section -->
-    <div class="container w-4/5 mx-auto my-8 bg-white p-5 rounded-lg shadow-sm">
-        <div class="product-detail flex flex-col gap-5 md:flex-row md:items-start">
-            <div class="carousel w-full md:w-1/2 max-w-md">
-                <div class="carousel-images">
-                    <img src="../img/<?= $produk['Gambar'] ?>" alt="Batik" class="w-full h-auto rounded-lg">
-                </div>
-            </div>
-
-            <div class="product-info w-full md:w-3/5 flex flex-col">
-                <h1 class="text-2xl font-bold text-gray-800 mb-3"><?= $produk['Nama'] ?></h1>
-                
-                <div class="product-meta mt-auto flex flex-col gap-4">
-                    <div class="rating text-red-500 text-base">⭐⭐⭐⭐☆ (50 ulasan)</div>
-                    <div class="product-prices">
-                        <span class="price-discount text-2xl font-bold">Rp<?= number_format($produk['Harga'] * 0.55, 0, ',', '.') ?></span>
-                        <span class="price-original line-through text-gray-400 text-xl ml-2">Rp<?= number_format($produk['Harga'], 0, ',', '.') ?></span>
-                    </div>
-
-                    <div id="stokValue" class="font-semibold">
-                        <strong>Stok:</strong>
-                        <span>Pilih ukuran</span>
-                    </div>
-                    <div id="size_options" class="flex gap-2 mb-4">
-                        <button class="size-button px-4 py-2 bg-gray-100 border rounded-md hover:bg-gray-300 transition-colors focus:outline-none focus:bg-gray-300" 
-                                data-size="Ukuran_S">S</button>
-                        <button class="size-button px-4 py-2 bg-gray-100 border rounded-md hover:bg-gray-300 transition-colors focus:outline-none focus:bg-gray-300" 
-                                data-size="Ukuran_M">M</button>
-                        <button class="size-button px-4 py-2 bg-gray-100 border rounded-md hover:bg-gray-300 transition-colors focus:outline-none focus:bg-gray-300" 
-                                data-size="Ukuran_L">L</button>
-                        <button class="size-button px-4 py-2 bg-gray-100 border rounded-md hover:bg-gray-300 transition-colors focus:outline-none focus:bg-gray-300" 
-                                data-size="Ukuran_XL">XL</button>
-                    </div>
-                    <input type="hidden" id="Id" value="<?= $produk['Kode'] ?>">
-                    
-                    <div class="description text-gray-600 text-base leading-relaxed mb-5 overflow-y-auto max-h-48 pb-5">
-                        <?= $produk['Deskripsi'] ?>
-                    </div>
-                    
-                    <div class="button-group flex gap-3 flex-wrap mt-auto">
-                        <a href="../user/order-form.html" class="buy-button bg-white text-green-800 px-6 py-3 rounded-md shadow-md hover:bg-green-50 transition-colors flex items-center">
-                            Beli Sekarang
-                        </a>
-                        <button class="cart-button bg-white text-green-800 px-6 py-3 rounded-md shadow-md hover:bg-green-50 transition-colors flex items-center ml-2" 
-                                onclick="addToCart()">
-                            <i class="fas fa-shopping-cart mr-2"></i> Keranjang
-                        </button>
-                        <button class="order-button bg-orange-600 text-white px-6 py-3 rounded-md shadow-md hover:bg-orange-700 transition-colors flex items-center" 
-                                onclick="window.location.href='https://id.shp.ee/FgCWeAT';">
-                            <i class="fab fa-shopify mr-2"></i> Order
-                        </button>
-                    </div>
-                </div>
-            </div>
-        </div>
+<!-- Product Detail Section -->
+<div class="container w-4/5 mx-auto my-8 bg-white p-5 rounded-lg shadow-sm">
+    <div class="product-detail flex flex-col gap-5 md:flex-row md:items-start">
+    <div class="carousel w-full md:w-1/2 max-w-md">
+    <div class="carousel-images">
+    <img src="../img/<?= $produk['Gambar'] ?>" alt="Batik" class="w-full h-auto rounded-lg">
+    </div>
     </div>
 
-    <script>
+    <div class="product-info w-full md:w-3/5 flex flex-col">
+    <h1 class="text-2xl font-bold text-gray-800 mb-3"><?= $produk['Nama'] ?></h1>
+                
+    <div class="product-meta mt-auto flex flex-col gap-4">
+    <div class="rating text-red-500 text-base">⭐⭐⭐⭐☆ (50 ulasan)</div>
+    <div class="product-prices">
+    <span class="price-discount text-2xl font-bold">Rp<?= number_format($produk['Harga'] * 0.55, 0, ',', '.') ?></span>
+    <span class="price-original line-through text-gray-400 text-xl ml-2">Rp<?= number_format($produk['Harga'], 0, ',', '.') ?></span>
+    </div>
+
+    <div id="stokValue" class="font-semibold">
+    <strong>Stok:</strong>
+    <span>Pilih ukuran</span>
+    </div>
+    <div id="size_options" class="flex gap-2 mb-4">
+        <button class="size-button px-4 py-2 bg-gray-100 border rounded-md hover:bg-gray-300 transition-colors focus:outline-none focus:bg-gray-300" 
+        data-size="Ukuran_S">S</button>
+        <button class="size-button px-4 py-2 bg-gray-100 border rounded-md hover:bg-gray-300 transition-colors focus:outline-none focus:bg-gray-300" 
+        data-size="Ukuran_M">M</button>
+        <button class="size-button px-4 py-2 bg-gray-100 border rounded-md hover:bg-gray-300 transition-colors focus:outline-none focus:bg-gray-300" 
+        data-size="Ukuran_L">L</button>
+        <button class="size-button px-4 py-2 bg-gray-100 border rounded-md hover:bg-gray-300 transition-colors focus:outline-none focus:bg-gray-300" 
+        data-size="Ukuran_XL">XL</button>
+    </div>
+        <input type="hidden" id="Id" value="<?= $produk['Kode'] ?>">
+                    
+    <div class="description text-gray-600 text-base leading-relaxed mb-5 overflow-y-auto max-h-48 pb-5">
+    <?= $produk['Deskripsi'] ?>
+    </div>
+                    
+    <div class="button-group flex gap-3 flex-wrap mt-auto">
+    <a href="../user/order-form.html" class="buy-button bg-white text-green-800 px-6 py-3 rounded-md shadow-md hover:bg-green-50 transition-colors flex items-center">Beli Sekarang
+    </a>
+    <button class="cart-button bg-white text-green-800 px-6 py-3 rounded-md shadow-md hover:bg-green-50 transition-colors flex items-center ml-2" onclick="addToCart()">
+    <i class="fas fa-shopping-cart mr-2"></i> Keranjang
+    </button>
+    <button class="order-button bg-orange-600 text-white px-6 py-3 rounded-md shadow-md hover:bg-orange-700 transition-colors flex items-center" onclick="window.location.href='https://id.shp.ee/FgCWeAT';">
+    <i class="fab fa-shopify mr-2"></i> Order
+    </button>
+    </div>
+    </div>
+    </div>
+    </div>
+</div>
+
+<script>
         const sizeButtons = document.querySelectorAll('.size-button');
         const stokSize = document.getElementById('stokValue');
         const id = document.getElementById('Id').value;
@@ -128,7 +124,8 @@ $produk = select("SELECT * FROM barang WHERE Kode = '$kode'")[0];
             alert('Produk telah ditambahkan ke keranjang');
             const cartCount = document.getElementById('cartCount');
             cartCount.textContent = parseInt(cartCount.textContent) + 1;
+            cartCount.classList.remove('hidden');
         }
-    </script>
+</script>
 </body>
 </html>
