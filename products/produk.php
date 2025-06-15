@@ -240,7 +240,7 @@ $produk = select("SELECT * FROM barang");
       </div>
       <nav>
         <a href="../user/kontak.html">Kontak</a>
-        <div class="cart-icon" onclick="window.location.href='../user/cart.html';">
+        <div class="cart-icon" onclick="window.location.href='cart.php';">
           <i class="fas fa-shopping-cart"></i>
           <span id="cartCount" class="cart-count">0</span>
         </div>

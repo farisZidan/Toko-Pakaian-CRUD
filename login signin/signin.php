@@ -99,29 +99,6 @@ if (isset($_POST['register'])) {
       .switch a:hover {
         text-decoration: underline;
       }
-      .modal {
-        display: none;
-        position: fixed;
-        z-index: 999;
-        left: 0;
-        top: 0;
-        width: 100%;
-        height: 100%;
-        background-color: rgba(0, 0, 0, 0.5);
-        justify-content: center;
-        align-items: center;
-      }
-      .modal-content {
-        background-color: #fff;
-        padding: 30px;
-        border-radius: 10px;
-        text-align: center;
-        box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
-      }
-      .modal-content button {
-        margin-top: 15px;
-        background-color: #030504fe;
-      }
     </style>
   </head>
   <body>
@@ -138,19 +115,11 @@ if (isset($_POST['register'])) {
         <input type="password" id="password" name="password" required />
         <label for="password2">Verifikasi Kata Sandi</label>
         <input type="password" id="password2" name="password2" required />
-
+        
         <button type="submit" name='register'>Daftar</button>
       </form>
       <div class="switch">
         Sudah punya akun? <a href="login.php">Masuk di sini</a>
-      </div>
-    </div>
-
-    <div class="modal" id="successModal">
-      <div class="modal-content">
-        <h3>Pendaftaran Berhasil!</h3>
-        <p>Selamat datang di RB Gallery 🎉</p>
-        <button onclick="closeModal()">Tutup</button>
       </div>
     </div>
   </body>

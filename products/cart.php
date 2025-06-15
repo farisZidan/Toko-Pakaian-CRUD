@@ -268,65 +268,118 @@
       }
     </style>
   </head>
-  <body>
-    <!-- Header Section -->
-    <header class="header">
-      <h1><a href="../index.html">RB Gallery</a></h1>
-      <nav>
-        <a href="../index.html">Beranda</a>
-        <a href="../products/produk.php">Produk</a>
-        <a href="kontak.html">Kontak</a>
-      </nav>
-    </header>
+<body>
+<!-- Header Section -->
+<header class="header">
+  <h1><a href="../index.html">RB Gallery</a></h1>
+  <nav>
+  <a href="../index.html">Beranda</a>
+  <a href="produk.php">Produk</a>
+  <a href="../user/kontak.html">Kontak</a>
+  </nav>
+</header>
 
-    <!-- Main Content -->
-    <div class="container">
-      <h1 class="cart-title">Keranjang Belanja Anda</h1>
-
-      <div class="cart-content">
-        <div class="cart-items" id="cartItems">
-          <div class="empty-cart">
-            <div class="empty-cart-icon">
-              <i class="fas fa-shopping-cart"></i>
-            </div>
-            <p class="empty-cart-message">Keranjang belanja Anda kosong</p>
-            <a href="../products/produk.php" class="continue-shopping"
-              >Lanjutkan Belanja</a
-            >
-          </div>
-        </div>
-
-        <!-- Cart Summary -->
-        <div class="cart-summary" id="cartSummary" style="display: none">
-          <h3 class="summary-title">Ringkasan Belanja</h3>
-          <div class="summary-row">
-            <span>Subtotal</span>
-            <span id="subtotal">Rp0</span>
-          </div>
-          <div class="summary-row">
-            <span>Ongkos Kirim</span>
-            <span id="shipping">Rp10.000</span>
-          </div>
-          <div class="summary-row summary-total">
-            <span>Total</span>
-            <span id="total">Rp10.000</span>
-          </div>
-          <button
-            class="checkout-btn"
-            onclick="window.location.href='order-form.html'"
-          >
-            Lanjut ke Pembayaran
-          </button>
-          <a href="../products/produk.php" class="continue-shopping"
-            >Lanjutkan Belanja</a
-          >
-        </div>
-      </div>
+<!-- Main Content -->
+<div class="container">
+  <h1 class="cart-title">Keranjang Belanja Anda</h1>
+    <div id="cartContainer">
+    <div class="empty-cart">
+    <div class="empty-cart-icon">
+      <i class="fas fa-shopping-cart"></i>
     </div>
+    <p class="empty-cart-message">Sedang memuat keranjang...</p>
+    </div>
+    </div>
+</div>
 
-    <!-- Footer -->
-    <footer class="footer">
-      <p>© RB Gallery | <a href="#">Kebijakan Privasi</a></p>
-    </footer>
-  </body>
+<!-- Cart Summary -->
+<!-- <div class="cart-summary" id="cartSummary" style="display: none">
+  <h3 class="summary-title">Ringkasan Belanja</h3>
+  <div class="summary-row">
+    <span>Subtotal</span>
+    <span id="subtotal">Rp0</span>
+  </div>
+  <div class="summary-row">
+    <span>Ongkos Kirim</span>
+    <span id="shipping">Rp10.000</span>
+  </div>
+  <div class="summary-row summary-total">
+    <span>Total</span>
+    <span id="total">Rp10.000</span>
+  </div>
+  <button class="checkout-btn" onclick="window.location.href='order-form.html'">Lanjut ke Pembayaran</button>
+  <a href="../products/produk.php" class="continue-shopping">Lanjutkan Belanja</a>
+</div> -->
+
+<!-- Footer -->
+<footer class="footer">
+  <p>© RB Gallery | <a href="#">Kebijakan Privasi</a></p>
+</footer>
+<script>
+        // Fungsi untuk memuat keranjang
+        function loadCart() {
+            fetch('../include/getCart.php')
+                .then(response => response.text())
+                .then(html => {
+                    document.getElementById('cartContainer').innerHTML = html;
+                    updateCartCount();
+                })
+                .catch(error => {
+                    console.error('Error:', error);
+                    document.getElementById('cartContainer').innerHTML = `
+                        <div class="empty-cart">
+                            <p class="empty-cart-message">Gagal memuat keranjang</p>
+                        </div>
+                    `;
+                });
+        }
+
+        // Fungsi untuk update quantity
+        function updateQuantity(itemId, change) {
+            const formData = new FormData();
+            formData.append('item_id', itemId);
+            formData.append('change', change);
+            
+            fetch('ajax/update_cart.php', {
+                method: 'POST',
+                body: formData
+            })
+            .then(response => response.text())
+            .then(html => {
+                document.getElementById('cartContainer').innerHTML = html;
+                updateCartCount();
+            });
+        }
+
+        // Fungsi untuk hapus item
+        function removeItem(itemId) {
+            if(!confirm('Hapus item dari keranjang?')) return;
+            
+            const formData = new FormData();
+            formData.append('item_id', itemId);
+            
+            fetch('ajax/remove_item.php', {
+                method: 'POST',
+                body: formData
+            })
+            .then(response => response.text())
+            .then(html => {
+                document.getElementById('cartContainer').innerHTML = html;
+                updateCartCount();
+            });
+        }
+
+        // Fungsi untuk update cart count di header
+        function updateCartCount() {
+            fetch('../include/getCart.php')
+                .then(response => response.text())
+                .then(count => {
+                    document.getElementById('cartCount').textContent = count;
+                });
+        }
+
+        // Load keranjang saat halaman dibuka
+        document.addEventListener('DOMContentLoaded', loadCart);
+    </script>
+</body>
 </html>

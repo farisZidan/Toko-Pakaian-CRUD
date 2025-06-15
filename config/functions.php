@@ -1,6 +1,5 @@
 <?php 
-// koneksi database
-$conn = mysqli_connect("localhost", "root", "", "rbgallerydatabase");
+include 'conn.php';
 // Function Select
 function select($query) {
     $barang = mysqli_query($GLOBALS['conn'], $query);

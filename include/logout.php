@@ -1,10 +1,12 @@
 <?php
 session_start();
+$_SESSION['login'] = false;
+$_SESSION['role'] = '';
+$_SESSION['nama'] = '';
 $_SESSION = [];
 session_unset();
 session_destroy();
-// setcookie('nama', $row['nama'], time()-600, "/");
-// setcookie('email', $row['email'], time()-600, "/");
+setcookie('nama', '',time()-86400 * 30, "/");
+setcookie('email', '', time()-86400 * 30, "/");
 header("Location: ../index.html");
 exit;
-?>
