@@ -252,7 +252,7 @@ $produk = select("SELECT * FROM barang");
         <?php foreach($produk as $barangArr) : ?>
         <div class="product-card">
           <div class="product-image">
-              <img src="../img/<?= $barangArr["Gambar"]; ?> " width="50"/>
+              <img src="../img/<?= $barangArr["Gambar"]; ?> " width="50" onerror="this.src='../img/Null-Image.png'" alt="<?= $barangArr["Nama"]; ?>">
               <div class="discount-badge">55% OFF</div>
             </a>
           </div>

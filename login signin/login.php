@@ -1,30 +1,45 @@
 <?php
 session_start();
-require '../config/functions.php';
+require '../config/conn.php';
+
 if(isset($_POST["masuk"])) {
-  $email = $_POST["email"];
-  $password = $_POST["password"];
-  $result = mysqli_query($conn, "SELECT * FROM user WHERE email = '$email' ");
-  $row = mysqli_fetch_assoc($result);
-  if (mysqli_num_rows($result) === 1 && password_verify($password, $row["password"])) { 
-    setcookie('User', $row['nama'], 0, "/");
-    setcookie('email', $row['email'], 0, "/");
-    if (isset($_POST['rememberMe'])) {
-            setcookie('User', $row['nama'], time()+86400 * 30, "/");
-            setcookie('email', $row['email'], time()+86400 * 30, "/");
-    }
-    if($row['role'] === 'admin') {
-        $_SESSION['role'] = 'admin';
-        $_SESSION['login'] = true;
-        header("Location: ../admin/admin.php");
-        exit;
-    } else {
+    $email = $_POST["email"];
+    $password = $_POST["password"];
+    $result = mysqli_query($conn, "SELECT * FROM user WHERE email = '$email' ");
+    
+    if(mysqli_num_rows($result) === 1) {
+        $row = mysqli_fetch_assoc($result);
+        
+    if(password_verify($password, $row["password"])) {
+        if($row['role'] == 'admin') {
+            $_SESSION['role'] = 'admin';
+            $_SESSION['login'] = true;
+            header("Location: ../admin/admin.php");
+            exit;
+            } 
+        elseif($row['role'] == 'user') {
+        // Atur cookie
+        $cookieOptions = [
+        'expires' => isset($_POST['rememberMe']) ? time()+86400*30 : 0,
+        'path' => '/',
+        ];
+                
+        setcookie('User', $row['nama'], $cookieOptions);
+        setcookie('email', $row['email'], $cookieOptions);
+                
         header("Location: ../index.html");
         exit;
-    }}
-    echo" <script>alert('email atau kata sandi salah')</script>";
+        }
+        }
+    }
+    
+    // Jika autentikasi gagal
+    echo "<script>
+    alert('Email atau kata sandi salah!');
+    document.location.href = 'login.php';
+    </script>";
+    exit;
 }
-
 ?>
 <!DOCTYPE html>
 <html lang="id">

@@ -21,7 +21,7 @@ $produk = mysqli_fetch_assoc(mysqli_query($conn, "SELECT * FROM barang WHERE Kod
 <body class="bg-gray-100">
 <!-- Header Section -->
 <header class="bg-white py-5 text-gray-800 text-center shadow-md">
-    <h1 class="text-2xl font-bold"><a href="index.html" class="text-black no-underline">RB Gallery</a></h1>
+    <h1 class="text-2xl font-bold"><a href="../index.html" class="text-black no-underline">RB Gallery</a></h1>
     <nav class="mt-3">
     <a href="../index.html" class="mx-5 font-semibold text-gray-800 no-underline hover:underline">Beranda</a>
     <a href="produk.php" class="mx-5 font-semibold text-gray-800 no-underline hover:underline">Produk</a>
@@ -39,7 +39,7 @@ $produk = mysqli_fetch_assoc(mysqli_query($conn, "SELECT * FROM barang WHERE Kod
     <div class="product-detail flex flex-col gap-5 md:flex-row md:items-start">
     <div class="carousel w-full md:w-1/2 max-w-md">
     <div class="carousel-images">
-    <img src="../img/<?= $produk['Gambar']; ?>" alt="Batik" class="w-full h-auto rounded-lg">
+    <img src="../img/<?= $produk['Gambar']; ?>" alt="Batik" class="w-full h-auto rounded-lg" onerror="this.src='../img/Null-Image.png'">
     </div>
     </div>
 
@@ -68,7 +68,7 @@ $produk = mysqli_fetch_assoc(mysqli_query($conn, "SELECT * FROM barang WHERE Kod
         data-size="Ukuran_XL">XL</button>
     </div>
         <input type="hidden" id="Id" value="<?= $produk['Kode']; ?>">
-        <input type="hidden" id="email" value="<?= $_COOKIE['email']; ?>">
+        <input type="hidden" id="email" value="<?= $_COOKIE['email'] ?? 0; ?>">
 
     <div class="description text-gray-600 text-base leading-relaxed mb-5 overflow-y-auto max-h-48 pb-5">
     <?= $produk['Deskripsi']; ?>
@@ -122,6 +122,10 @@ function addToCart() {
     const activeButton = document.querySelector('.size-button.bg-gray-300');
     if (!activeButton) {
         alert('Silakan pilih ukuran terlebih dahulu');
+        return;
+    }
+    if (email == 0) {
+        alert('Silakan login terlebih dahulu');
         return;
     }
 

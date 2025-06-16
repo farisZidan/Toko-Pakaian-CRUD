@@ -1,116 +1,76 @@
 <?php
-session_start();
 require_once '../config/conn.php';
 
-$userId = $_SESSION['user_id'] ?? 0;
+$email = $_GET['email'];
+if (!$email) {
+    echo "div.empty-cart {
+        display: block;
+        text-align: center;
+        margin-top: 50px;
+    }";
+    exit;
+}
 
 // Dapatkan keranjang user
-$cartQuery = "SELECT k.id FROM keranjang k WHERE k.user_id = ?";
-$cartStmt = $conn->prepare($cartQuery);
-$cartStmt->bind_param("i", $userId);
-$cartStmt->execute();
-$cart = $cartStmt->get_result()->fetch_assoc();
+$cartQuery = "SELECT k.id FROM keranjang as k JOIN user as u ON u.id = k.user_id WHERE u.email = '$email'";
+$cart = mysqli_fetch_assoc(mysqli_query($conn, $cartQuery));
 
+// Jika ada keranjang, ambil item di dalamnya
 if($cart) {
-    $cartId = $cart['id'];
-    
-    // Dapatkan item keranjang
-    $itemsQuery = "
-        SELECT 
-            ki.id,
-            b.nama,
-            b.gambar,
-            ki.ukuran,
-            ki.jumlah,
-            ki.harga
-        FROM keranjang_item ki
-        JOIN barang b ON ki.barang_id = b.id
-        WHERE ki.keranjang_id = ?
+    $cartId = $cart['id'];   
+    $itemsQuery = "SELECT b.Kode, b.Nama, b.Gambar, ik.ukuran, ik.jumlah, ik.harga FROM item_keranjang AS ik JOIN barang AS b ON ik.barang_id = b.Kode WHERE ik.keranjang_id = '$cartId' ORDER BY b.Nama ASC;
     ";
-    $itemsStmt = $conn->prepare($itemsQuery);
-    $itemsStmt->bind_param("i", $cartId);
-    $itemsStmt->execute();
-    $items = $itemsStmt->get_result()->fetch_all(MYSQLI_ASSOC);
-    
-    if($items) {
-        $subtotal = 0;
-        $totalItems = 0;
-        
-        foreach($items as $item) {
-            $subtotal += $item['harga'] * $item['jumlah'];
-            $totalItems += $item['jumlah'];
-        }
-        
-        // Render HTML langsung
-        echo '<div class="cart-content">';
-        echo '<div class="cart-items">';
-        
-        foreach($items as $item) {
-            echo '
-            <div class="cart-item" data-id="'.$item['id'].'">
-                <img src="../images/'.$item['gambar'].'" alt="'.$item['nama'].'" class="cart-item-img">
-                <div class="cart-item-details">
-                    <h3 class="cart-item-title">'.$item['nama'].'</h3>
-                    <p class="cart-item-price">Rp'.number_format($item['harga'], 0, ',', '.').'</p>
-                    <p>Ukuran: '.$item['ukuran'].'</p>
-                    <div class="cart-item-quantity">
-                        <button class="quantity-btn minus" onclick="updateQuantity('.$item['id'].', -1)">
-                            <i class="fas fa-minus"></i>
-                        </button>
-                        <input type="text" class="quantity-input" value="'.$item['jumlah'].'" readonly>
-                        <button class="quantity-btn plus" onclick="updateQuantity('.$item['id'].', 1)">
-                            <i class="fas fa-plus"></i>
-                        </button>
-                    </div>
-                </div>
-                <button class="remove-item" onclick="removeItem('.$item['id'].')">
-                    <i class="fas fa-trash"></i>
-                </button>
-            </div>';
-        }
-        
-        echo '</div>';
-        
-        // Cart summary
-        echo '<div class="cart-summary">
-                <h3 class="summary-title">Ringkasan Belanja</h3>
-                <div class="summary-row">
-                    <span>Subtotal</span>
-                    <span>Rp'.number_format($subtotal, 0, ',', '.').'</span>
-                </div>
-                <div class="summary-row">
-                    <span>Ongkos Kirim</span>
-                    <span>Rp10.000</span>
-                </div>
-                <div class="summary-row summary-total">
-                    <span>Total</span>
-                    <span>Rp'.number_format($subtotal + 10000, 0, ',', '.').'</span>
-                </div>
-                <button class="checkout-btn" onclick="window.location.href=\'order-form.html\'">Lanjut ke Pembayaran</button>
-                <a href="../products/produk.php" class="continue-shopping">Lanjutkan Belanja</a>
-              </div>';
-        
-        echo '</div>';
-    } else {
-        // Tampilkan keranjang kosong
-        echo '
-        <div class="empty-cart">
-            <div class="empty-cart-icon">
-                <i class="fas fa-shopping-cart"></i>
-            </div>
-            <p class="empty-cart-message">Keranjang belanja Anda kosong</p>
-            <a href="../products/produk.php" class="continue-shopping">Lanjutkan Belanja</a>
-        </div>';
+    $result = mysqli_query($conn, $itemsQuery);
+    $items = [];
+    while ($data = mysqli_fetch_assoc($result)) {
+    $items[] = $data;
     }
-} else {
-    // Tampilkan keranjang kosong
-    echo '
-    <div class="empty-cart">
-        <div class="empty-cart-icon">
-            <i class="fas fa-shopping-cart"></i>
-        </div>
-        <p class="empty-cart-message">Keranjang belanja Anda kosong</p>
-        <a href="../products/produk.php" class="continue-shopping">Lanjutkan Belanja</a>
-    </div>';
+} else { 
+    echo mysqli_error($conn);
 }
+// Menambah jumlah harga dan total harga
+// $jumlahHarga = 0;
+$totalHarga = 0;
 ?>
+
+<?php foreach($items as $item) : ?>
+    <div class="cart-item" data-id="<?= htmlspecialchars($item['Kode']);?>">
+    <img src="../img/<?= htmlspecialchars($item['Gambar']);?>" alt="<?= $item['Nama'];?>" class="cart-item-img" onerror="this.src='../img/Null-Image.png'">
+        <div class="cart-item-details">
+            <h3 class="cart-item-title"><?= htmlspecialchars($item['Nama']);?></h3>
+            <p class="cart-item-price">Rp<?=number_format( htmlspecialchars($item['harga']), 0, ',', '.');?></p>
+            <p>Ukuran: <?= $item['ukuran'];?></p>
+            <div class="cart-item-quantity">
+            <button class="quantity-btn minus" onclick="updateQuantity(<?= htmlspecialchars($item['jumlah']);?>, -1)">
+            <i class="fas fa-minus"></i>
+            </button>
+            <input type="text" class="quantity-input" value="<?= $item['jumlah'];?>" readonly>
+            <button class="quantity-btn plus" onclick="updateQuantity('<?= htmlspecialchars($item['jumlah']);?>', 1)">
+            <i class="fas fa-plus"></i>
+            </button>
+            </div>
+        </div>
+    <button class="remove-item" onclick="removeItem('<?= htmlspecialchars($item['Kode']);?>')">
+        <i class="fas fa-trash"></i>
+    </button>
+    </div>
+    <div class="summary-row">
+        <span>Subtotal</span>
+        <span id="subtotal">Rp<?=number_format( htmlspecialchars($item['harga']) * htmlspecialchars($item['jumlah']), 0, ',', '.');?></span>
+    </div>
+    <?php
+    $totalHarga += htmlspecialchars($item['harga']) * htmlspecialchars($item['jumlah']);
+    ?>
+<?php endforeach; ?>
+
+    <div class="summary-row">
+    <span>Ongkos Kirim</span>
+    <span id="shipping">Rp10.000</span>
+    </div>
+    <div class="summary-row summary-total">
+    <span>Total</span>
+    <span id="total">Rp<?= number_format($totalHarga, 0, ',', '.'); ?></span>
+    </div>
+    <button class="checkout-btn" onclick="window.location.href='order-form.html'">Lanjut ke Pembayaran</button>
+    <a href="../products/produk.php" class="continue-shopping">Lanjutkan Belanja</a>
+    </div>
