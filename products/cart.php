@@ -127,8 +127,20 @@
       }
 
       .cart-item-price {
-        color: #3b82f6;
-        font-weight: 600;
+      color: #3b82f6;
+      font-weight: 600;
+      font-size: 1.1rem;
+      }
+
+      .cart-item-price-original {
+      color: #9ca3af;
+      font-weight: 400;
+      text-decoration: line-through;
+      text-decoration-color: #ef4444;
+      text-decoration-thickness: 2px;
+      font-size: 0.9rem;
+      margin-right: 0.5rem;
+      position: relative;
       }
 
       .cart-item-quantity {

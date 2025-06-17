@@ -38,7 +38,8 @@ foreach($items as $index => $item) : ?>
     <img src="../img/<?= htmlspecialchars($item['Gambar']);?>" alt="<?= $item['Nama'];?>" class="cart-item-img" onerror="this.src='../img/Null-Image.png'">
         <div class="cart-item-details">
             <h3 class="cart-item-title"><?= htmlspecialchars($item['Nama']);?></h3>
-            <p class="cart-item-price">Rp<?=number_format( htmlspecialchars($item['harga']), 0, ',', '.');?></p>
+            <p class="cart-item-price-original">Rp<?=number_format( htmlspecialchars($item['harga']), 0, ',', '.');?></p>
+            <p class="cart-item-price">Rp<?=number_format( htmlspecialchars($item['harga'])* 0.55, 0, ',', '.');?></p>
             <p>Ukuran: <?= $item['ukuran'];?></p>
 
             <div class="cart-item-quantity">
@@ -58,10 +59,10 @@ foreach($items as $index => $item) : ?>
     </div>
     <div class="summary-row">
         <span>Subtotal</span>
-        <span id="subtotal">Rp<?=number_format( htmlspecialchars($item['harga']) * htmlspecialchars($item['jumlah']), 0, ',', '.');?></span>
+        <span id="subtotal">Rp<?=number_format(( htmlspecialchars($item['harga']) * 0.55) * htmlspecialchars($item['jumlah']), 0, ',', '.');?></span>
     </div>
     <?php
-    $totalHarga += htmlspecialchars($item['harga']) * htmlspecialchars($item['jumlah']);
+    $totalHarga += (htmlspecialchars($item['harga']) * 0.55) * htmlspecialchars($item['jumlah']);
     $jumlahItem += htmlspecialchars($item['jumlah']);
     ?>
 <?php endforeach; ?>
