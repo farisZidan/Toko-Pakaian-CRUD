@@ -145,7 +145,7 @@ $counter = 1;
         <td><?= $counter ?></td>
         <td class="action-buttons">
             <a href="ubah.php?Kode=<?= $row["Kode"]; ?>" class="btn btn-sm btn-warning" title="Ubah"><i class="fas fa-edit"></i></a>
-            <a href="hapus.php?Kode=<?= urlencode($row["Kode"]); ?> &Gambar= <?= urlencode($row["Gambar"]); ?>)" class="btn btn-sm btn-danger" onclick="return confirm('Yakin ingin menghapus produk ini?');" title="Hapus"><i class="fas fa-trash-alt"></i></a>
+            <a href="hapus.php?Kode=<?= urlencode($row["Kode"]); ?>&Gambar= <?= htmlspecialchars($row["Gambar"]); ?>" class="btn btn-sm btn-danger" onclick="return confirm('Yakin ingin menghapus produk ini?');" title="Hapus"><i class="fas fa-trash-alt"></i></a>
         </td>
         <td><?= htmlspecialchars($row["Kode"]); ?></td>
         <td><img src="../img/<?= htmlspecialchars($row["Gambar"])?>" alt="<?= htmlspecialchars($row["Nama"]) ?>" class="product-img" onerror="this.src='../img/Null-Image.png'"></td>
@@ -190,6 +190,7 @@ $counter = 1;
 <?php endif; ?>
 </div>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+
 <script>
 document.addEventListener('DOMContentLoaded', function() {
 

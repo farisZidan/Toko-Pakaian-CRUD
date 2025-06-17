@@ -29,8 +29,8 @@ $produk = mysqli_fetch_assoc(mysqli_query($conn, "SELECT * FROM barang WHERE Kod
     </nav>
     <!-- Cart Icon with count -->
     <div class="absolute top-5 right-5 text-xl text-gray-800 cursor-pointer flex items-center" onclick="window.location.href='cart.php'">
-    <i class="fas fa-shopping-cart"></i> 
-    <span id="cartCount" class="bg-red-500 text-white text-sm rounded-full px-2 ml-1 hidden">0</span>
+    <i class="fas fa-shopping-cart"></i>
+    <span id="cartCount" class="bg-red-500 text-white text-sm rounded-full px-2 ml-1" style="display: none">0</span>
     </div>
 </header>
 
@@ -91,62 +91,119 @@ $produk = mysqli_fetch_assoc(mysqli_query($conn, "SELECT * FROM barang WHERE Kod
 
 <script>
 document.addEventListener('DOMContentLoaded', function() {
-const sizeButtons = document.querySelectorAll('.size-button');
-const stokSize = document.getElementById('stokValue');
-const id = document.getElementById('Id').value;
-const email = document.getElementById('email').value;
-document.getElementById('addToCart').addEventListener('click', addToCart);
+    // Inisialisasi elemen
+    const sizeButtons = document.querySelectorAll('.size-button');
+    const stokSize = document.getElementById('stokValue');
+    const id = document.getElementById('Id').value;
+    const email = document.getElementById('email').value;
+    const cartCount = document.getElementById('cartCount');
+    
+    // Inisialisasi tampilan awal
+    cartCount.style.display = 'none';
+    stokSize.innerHTML = '<strong>Stok:</strong> Pilih ukuran';
 
-sizeButtons.forEach(button => {
-    button.addEventListener('click', function() {
-        sizeButtons.forEach(btn => {
-            btn.classList.remove('bg-gray-300');
-            btn.classList.add('bg-gray-100');
-        });
-        this.classList.remove('bg-gray-100');
-        this.classList.add('bg-gray-300');
-                
-        const xhr = new XMLHttpRequest();
-        xhr.onreadystatechange = function() {
-         if (xhr.readyState === 4 && xhr.status === 200) {
-             stokSize.innerHTML = '<strong>Stok:</strong> ' + xhr.responseText;
-            }
-        };
-        const selectedSize = this.getAttribute('data-size');
-        xhr.open('GET', `../include/getStok.php?size=${encodeURIComponent(selectedSize)}&Id=${encodeURIComponent(id)}`, true);
-        xhr.send();
-        });
-});
-
-function addToCart() {
-    const activeButton = document.querySelector('.size-button.bg-gray-300');
-    if (!activeButton) {
-        alert('Silakan pilih ukuran terlebih dahulu');
-        return;
-    }
-    if (email == 0) {
-        alert('Silakan login terlebih dahulu');
-        return;
-    }
-
-    const xhr = new XMLHttpRequest();
-    xhr.onreadystatechange = function() {
-        if (xhr.readyState === 4 && xhr.status === 200) {
-            if (xhr.responseText === 'error') {
-                alert('Gagal menambahkan produk ke keranjang. Silakan coba lagi.');
-                return;
-            }
-            alert('Produk berhasil ditambahkan ke keranjang!');
-            const cartCount = document.getElementById('cartCount');
-            cartCount.textContent = parseInt(cartCount.textContent) + 1;
-            cartCount.classList.remove('hidden');
+    // Fungsi untuk menangani error
+    function handleError(error, context) {
+        console.error(`Error in ${context}:`, error);
+        if (context === 'stok') {
+            stokSize.innerHTML = '<strong>Stok:</strong> Error';
         }
-    };
-    const selectedSize = activeButton.getAttribute('data-size');
-    xhr.open('POST', '../include/addItem.php', true);
-    xhr.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
-    xhr.send(`size=${encodeURIComponent(selectedSize)}&Id=${encodeURIComponent(id)}&email=${encodeURIComponent(email)}`);
-}});
+    }
+
+    // Fungsi update cart count
+    function updateCartCount() {
+        if (!email || email === "0") return;
+        
+        fetch(`../include/cartCount.php?email=${encodeURIComponent(email)}&cartCount=true`)
+            .then(response => {
+                if (!response.ok) throw new Error('Network error');
+                return response.text();
+            })
+            .then(count => {
+                cartCount.textContent = count.trim();
+                cartCount.style.display = count > 0 ? 'inline-block' : 'none';
+            })
+            .catch(error => handleError(error, 'cart'));
+    }
+
+    // Fungsi update stok
+    function updateStok(selectedSize) {
+        fetch(`../include/getStok.php?size=${encodeURIComponent(selectedSize)}&Id=${encodeURIComponent(id)}`)
+            .then(response => {
+                if (!response.ok) throw new Error('Network error');
+                return response.text();
+            })
+            .then(stok => {
+                stokSize.innerHTML = '<strong>Stok:</strong> ' + stok;
+            })
+            .catch(error => handleError(error, 'stok'));
+    }
+
+    // Event listeners
+    document.getElementById('addToCart').addEventListener('click', addToCart);
+    
+    sizeButtons.forEach(button => {
+        button.addEventListener('click', function() {
+            // Update tampilan button
+            sizeButtons.forEach(btn => {
+                btn.classList.remove('bg-gray-300');
+                btn.classList.add('bg-gray-100');
+            });
+            this.classList.remove('bg-gray-100');
+            this.classList.add('bg-gray-300');
+            
+            // Update stok
+            const selectedSize = this.getAttribute('data-size');
+            updateStok(selectedSize);
+        });
+    });
+
+    // Fungsi add to cart
+    async function addToCart() {
+        const activeButton = document.querySelector('.size-button.bg-gray-300');
+        if (!activeButton) {
+            alert('Silakan pilih ukuran terlebih dahulu');
+            return;
+        }
+        if (!email || email === "0") {
+            alert('Silakan login terlebih dahulu');
+            return;
+        }
+
+        try {
+            const selectedSize = activeButton.getAttribute('data-size');
+            const response = await fetch('../include/addItem.php', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/x-www-form-urlencoded',
+                },
+                body: `size=${encodeURIComponent(selectedSize)}&Id=${encodeURIComponent(id)}&email=${encodeURIComponent(email)}`
+            });
+            
+            const result = await response.text();
+            
+            if (result === 'error') {
+                throw new Error('Server error');
+            }
+            
+            alert('Produk berhasil ditambahkan ke keranjang!');
+            updateCartCount();
+        } catch (error) {
+            alert('Gagal menambahkan produk ke keranjang. Silakan coba lagi.');
+            console.error('Add to cart error:', error);
+        }
+    }
+
+    // Inisialisasi awal
+     // Update cart count on page load
+    updateCartCount();
+    // Update cart count when the page becomes visible
+    document.addEventListener('visibilitychange', function() {  
+        if (!document.hidden) updateCartCount();
+    });
+     // Update cart count when the window gains focus
+    window.addEventListener('focus', updateCartCount);
+});
 </script>
 </body>
 </html>

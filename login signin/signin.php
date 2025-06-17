@@ -8,6 +8,7 @@ if (isset($_POST['register'])) {
         alert("Berhasil");
     </script>
     ';
+    header("Location: login.php");
   } else {
     echo mysqli_error($conn);
   }

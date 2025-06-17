@@ -24,7 +24,6 @@ function insert($data) {
     //upload gambar
     $gambar = upload();
     if(!$gambar) {
-        
         return false;
     }
 
@@ -77,23 +76,9 @@ function hapus($kode, $gambar) {
 }
 // Function Hapus Image
 function deleteFile($path) {
-    if (!str_starts_with($path, '../img/')) {
-        error_log("delete failed: invalid path");
-        echo "<script>
-        alert('Path tidak valid!');
-        </script>";
-        return false;
-    }
-    $allowedExtensions = ['jpg', 'jpeg', 'png', 'gif'];
-    $ext = strtolower(pathinfo($path, PATHINFO_EXTENSION));
-    if (in_array($ext, $allowedExtensions) && file_exists($path)) {
-        return unlink($path);
-        error_log("delete result: " . ($result ? "success" : "failed"));
-        return $result;
-    } else {
-        error_log("delete failed: file does not exist or invalid extension");
-    }
-    return false;
+    $result = unlink($path);
+    error_log("Delete result: " . ($result ? "success" : "failed") . " - $path");
+    return $result;
 }
 // Function Update
 function update($data) {

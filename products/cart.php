@@ -195,7 +195,21 @@
         padding-top: 10px;
         border-top: 1px solid #e5e7eb;
       }
-
+      .nav-links {
+        display: flex;
+        align-items: center;
+        justify-content:  center;
+        margin-top: 20px;
+      }
+      .nav-links a {
+        color: #3b82f6;
+        text-decoration: none;
+        font-weight: 600;
+        margin-top: 10px;
+      }
+      .nav-links a:hover {
+        text-decoration: underline;
+      }
       .checkout-btn {
         width: 100%;
         padding: 12px;
@@ -212,19 +226,6 @@
       .checkout-btn:hover {
         background-color: #2563eb;
       }
-
-      .continue-shopping {
-        display: inline-block;
-        margin-top: 15px;
-        color: #3b82f6;
-        text-decoration: none;
-        font-weight: 600;
-      }
-
-      .continue-shopping:hover {
-        text-decoration: underline;
-      }
-
       /* Empty Cart */
       .empty-cart {
         text-align: center;
@@ -297,77 +298,101 @@
   <p>© RB Gallery | <a href="#">Kebijakan Privasi</a></p>
 </footer>
 <input type="hidden" id="email" value="<?= $_COOKIE['email'] ?? 0; ?>">
+
 <script>
-document.addEventListener('DOMContentLoaded', function() {
-
-  const cartContainer = document.getElementById('cartContainer');
-  const emptyCartDiv = document.getElementById('emptyCart');
-  const email = document.getElementById('email').value;
+document.addEventListener('DOMContentLoaded', () => {
+// Ambil elemen-elemen yang diperlukan
+const cartContainer = document.getElementById('cartContainer');
+const emptyCartDiv = document.getElementById('emptyCart');
+const email = document.getElementById('email').value;
   
-  // Perbaikan 1: Perbaikan pengecekan email yang benar
-  if (email && email !== '0') {
-    emptyCartDiv.style.display = 'none';
+// Cek apakah email ada dan tidak kosong
+if (email && email !== '0') {
+  emptyCartDiv.style.display = 'none';
 
-    const xhr = new XMLHttpRequest();
-    xhr.onreadystatechange = function() {
-      if (xhr.readyState === 4 && xhr.status === 200) {
-        cartContainer.innerHTML = xhr.responseText;
-      }
-    };
-
-    xhr.open('GET', `../include/getCart.php?email=${encodeURIComponent(email)}`, true);
-    xhr.send();
-    
+  const xhr = new XMLHttpRequest();
+  xhr.onreadystatechange = function() {
+    if (xhr.readyState === 4 && xhr.status === 200) {
+      cartContainer.innerHTML = xhr.responseText;
+    }
+  }
+  xhr.open('GET', `../include/getCart.php?email=${encodeURIComponent(email)}`, true);
+  xhr.send();  
   } else {
     emptyCartDiv.style.display = 'block';
     alert('Silahkan login terlebih dahulu');
     return;
   }
+
+// Fungsi untuk update quantity
+document.addEventListener('click', function(e) {
+  if (e.target.closest('.quantity-btn')) {
+    const button = e.target.closest('.quantity-btn');
+    const itemElement = button.closest('.cart-item');
+    const quantityInput = itemElement.querySelector('.quantity-input');
+    const id = itemElement.querySelector('#id_keranjang').value;
+    let currentQuantity = parseInt(quantityInput.value);
+    const change = parseInt(button.getAttribute('data-change'));
+    const newQuantity = currentQuantity + change;
+
+    if (newQuantity < 1) return;
+
+    // Update UI immediately
+    quantityInput.value = newQuantity;
+
+    // 1.update the quantity
+    const xhr = new XMLHttpRequest();
+    xhr.open('GET', `../include/updateItem.php?id=${encodeURIComponent(id)}&change=${encodeURIComponent(newQuantity)}`, true);
+    xhr.onload = () => {
+    if (xhr.status === 200) {
+        // Refresh cart after successful update
+        const refreshXhr = new XMLHttpRequest();
+        refreshXhr.open('GET', `../include/getCart.php?email=${encodeURIComponent(email)}`, true);
+        refreshXhr.onload = () => {
+          if (refreshXhr.status === 200) {
+            cartContainer.innerHTML = refreshXhr.responseText; 
+          } else {
+            alert('Gagal memperbarui jumlah item');
+          }
+        }
+        refreshXhr.send();
+    } 
+  }
+    xhr.send();
+  }
 });
 
-        // // Fungsi untuk update quantity
-        // function updateQuantity(itemId, change) {
-        //     const formData = new FormData();
-        //     formData.append('item_id', itemId);
-        //     formData.append('change', change);
-            
-        //     fetch('ajax/update_cart.php', {
-        //         method: 'POST',
-        //         body: formData
-        //     })
-        //     .then(response => response.text())
-        //     .then(html => {
-        //         document.getElementById('cartContainer').innerHTML = html;
-        //         updateCartCount();
-        //     });
-        // }
+// Fungsi untuk menghapus item dari keranjang
+document.addEventListener('click', function(e) {
+  if (e.target.closest('#remove-item')) {
+    const button = e.target.closest('#remove-item');
+    const itemId = button.value;
+        
+    if (!confirm('Apakah Anda yakin ingin menghapus item ini dari keranjang?')) {
+      return;
+    }
 
-        // // Fungsi untuk hapus item
-        // function removeItem(itemId) {
-        //     if(!confirm('Hapus item dari keranjang?')) return;
-            
-        //     const formData = new FormData();
-        //     formData.append('item_id', itemId);
-            
-        //     fetch('ajax/remove_item.php', {
-        //         method: 'POST',
-        //         body: formData
-        //     })
-        //     .then(response => response.text())
-        //     .then(html => {
-        //         document.getElementById('cartContainer').innerHTML = html;
-        //         updateCartCount();
-        //     });
-        // }
-
-        // // Fungsi untuk update cart count di header
-        // function updateCartCount() {
-        //     fetch('../include/getCart.php')
-        //         .then(response => response.text())
-        //         .then(count => {
-        //             document.getElementById('cartCount').textContent = count;
-        //         });
-
-  </script>
+    const xhr = new XMLHttpRequest();
+    xhr.open('GET', `../include/deleteItem.php?id=${encodeURIComponent(itemId)}`, true);
+    xhr.onload = () => {
+    if (xhr.status === 200) {
+        // Refresh cart after successful deletion
+        const refreshXhr = new XMLHttpRequest();
+        refreshXhr.open('GET', `../include/getCart.php?email=${encodeURIComponent(email)}`, true);
+        refreshXhr.onload = () => {
+          if (refreshXhr.status === 200) {
+            cartContainer.innerHTML = refreshXhr.responseText; 
+          } else {
+          alert('Gagal menghapus item');
+          }  
+        }
+        refreshXhr.send();
+    }
+  }
+  xhr.send();
+}
+});
+});
+</script>
 </body>
 </html>
