@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Waktu pembuatan: 17 Jun 2025 pada 10.08
+-- Waktu pembuatan: 19 Jun 2025 pada 15.00
 -- Versi server: 10.4.32-MariaDB
 -- Versi PHP: 8.0.30
 
@@ -54,7 +54,7 @@ INSERT INTO `barang` (`Kode`, `Nama`, `Ukuran_S`, `Ukuran_M`, `Ukuran_L`, `Ukura
 (13, 'Batik 8', 6, 24, 6, 6, 'Batik 8.jpg', 80000, 'Batik nomor 8'),
 (15, 'Batik 9', 6, 24, 6, 6, '68110ef9ef836.jpg', 99000, 'asdfasdf'),
 (17, ' USM jaya', 6, 0, 6, 6, '68510a7deea86.png', 5, '5'),
-(35, ' Test', 0, 0, 0, 7, '68510d49499b7.png', 80000, 'Test');
+(36, ' Baggy pants', 0, 0, 1, 0, '6851a6da43401.jpeg', 400000, 'Celana gombrong skena');
 
 -- --------------------------------------------------------
 
@@ -81,7 +81,11 @@ INSERT INTO `item_keranjang` (`id`, `keranjang_id`, `barang_id`, `ukuran`, `juml
 (1, 18, 3, 'XL', 5, 70000, '2025-06-15 17:59:15', '2025-06-16 17:12:02'),
 (2, 18, 3, 'M', 1, 70000, '2025-06-15 17:59:45', '2025-06-15 17:59:45'),
 (15, 22, 3, 'M', 3, 70000, '2025-06-17 05:48:09', '2025-06-17 06:46:00'),
-(17, 22, 3, 'L', 4, 70000, '2025-06-17 06:42:39', '2025-06-17 06:49:06');
+(17, 22, 3, 'L', 4, 70000, '2025-06-17 06:42:39', '2025-06-17 06:49:06'),
+(18, 23, 5, 'L', 1, 50000, '2025-06-17 08:33:18', '2025-06-17 08:33:18'),
+(19, 23, 3, 'XL', 1, 70000, '2025-06-17 17:18:00', '2025-06-17 17:18:00'),
+(20, 24, 4, 'M', 1, 50000, '2025-06-17 17:30:58', '2025-06-17 17:30:58'),
+(21, 24, 5, 'M', 1, 50000, '2025-06-17 17:31:11', '2025-06-17 17:31:11');
 
 -- --------------------------------------------------------
 
@@ -102,8 +106,9 @@ CREATE TABLE `keranjang` (
 
 INSERT INTO `keranjang` (`id`, `user_id`, `created_at`, `updated_at`) VALUES
 (18, 1, '2025-06-15 17:51:07', '2025-06-15 17:51:07'),
-(19, 4, '2025-06-15 18:00:34', '2025-06-15 18:00:34'),
-(22, 6, '2025-06-17 05:48:09', '2025-06-17 05:48:09');
+(22, 6, '2025-06-17 05:48:09', '2025-06-17 05:48:09'),
+(23, 7, '2025-06-17 08:33:18', '2025-06-17 08:33:18'),
+(24, 8, '2025-06-17 17:30:58', '2025-06-17 17:30:58');
 
 -- --------------------------------------------------------
 
@@ -125,12 +130,9 @@ CREATE TABLE `user` (
 
 INSERT INTO `user` (`id`, `nama`, `email`, `password`, `role`) VALUES
 (1, 'Admin', 'superadmin123@admin', '$2y$10$JFTVY1SaCA6GL7ONh1Kt4efYzlQopizpd8UCt7DThkXAxan8rF2Ti', 'admin'),
-(2, 'Faris', 'thornestarkk@gmail.com', '$2y$10$P6Ubu3M8MPZTf/4KQuLzwennQPHpXjoW9TVO6nuq//ImNuEiEBiZ.', 'user'),
-(3, 'Slamet', 'slamet@gmail.com', '$2y$10$dtH.BY6jHDQHOhnSIt6n0e8ZSDewPjfxO2ww7vUjw8QugrB7r1y7e', 'user'),
-(4, 'Supriadi', 'supriadi@gmail.com', '$2y$10$Ld8dCXzp1jwRmPnf26puB.vzqxkCnkvXXU8rFAqAJUTo2i/Xk6maW', 'user'),
-(5, 'Shodik', 'shodik@gmail.com', '$2y$10$ieYOZTKb6aylGTovsu2S5ecB3LbGsMAu4obSrSIzMR9CA6UOrsO9m', 'user'),
 (6, 'Test User 1', 'testuser1@admin', '$2y$10$WVeA8SOCR2RDetG2c0jawOZtWAcsr6tmyE8XaKEnxbptOmaFky7JC', 'user'),
-(7, 'Test User  2', 'testuser2@admin', '$2y$10$xgjPQL2TQiY/VKQRNH9wNu2G4vH6xwBeLs0Y8tye03axfOWo2E.TK', 'user');
+(7, 'Test User  2', 'testuser2@admin', '$2y$10$xgjPQL2TQiY/VKQRNH9wNu2G4vH6xwBeLs0Y8tye03axfOWo2E.TK', 'user'),
+(8, 'Test User  3', 'testuser3@admin', '$2y$10$JogwqF.AiZ8k4uOOaassDetTjBrtN67RMN1W4wSpXMN.Ikn6D2Mg.', 'user');
 
 --
 -- Indexes for dumped tables
@@ -171,25 +173,25 @@ ALTER TABLE `user`
 -- AUTO_INCREMENT untuk tabel `barang`
 --
 ALTER TABLE `barang`
-  MODIFY `Kode` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=36;
+  MODIFY `Kode` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=37;
 
 --
 -- AUTO_INCREMENT untuk tabel `item_keranjang`
 --
 ALTER TABLE `item_keranjang`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=18;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=22;
 
 --
 -- AUTO_INCREMENT untuk tabel `keranjang`
 --
 ALTER TABLE `keranjang`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=23;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=25;
 
 --
 -- AUTO_INCREMENT untuk tabel `user`
 --
 ALTER TABLE `user`
-  MODIFY `id` int(4) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
+  MODIFY `id` int(4) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
 
 --
 -- Ketidakleluasaan untuk tabel pelimpahan (Dumped Tables)
