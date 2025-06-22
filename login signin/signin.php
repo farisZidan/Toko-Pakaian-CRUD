@@ -20,107 +20,36 @@ if (isset($_POST['register'])) {
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Sign In - RB Gallery</title>
+    <script src="https://cdn.tailwindcss.com"></script>
     <link
-      href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap"
+      href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600&display=swap"
       rel="stylesheet"
     />
     <style>
-      * {
-        margin: 0;
-        padding: 0;
-        box-sizing: border-box;
-      }
       body {
-        font-family: "Poppins", sans-serif;
-        background-color: #f1f5f9;
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        height: 100vh;
-      }
-      .form-container {
-        background-color: #ffffff;
-        padding: 40px;
-        border-radius: 15px;
-        box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
-        max-width: 400px;
-        width: 100%;
-      }
-      h2 {
-        text-align: center;
-        margin-bottom: 25px;
-        color: #030504fe;
-      }
-      label {
-        font-size: 14px;
-        font-weight: 500;
-        margin-bottom: 8px;
-        display: block;
-        color: #4b5563;
-      }
-      input {
-        width: 100%;
-        padding: 12px 16px;
-        margin-bottom: 20px;
-        border: 1px solid #d1d5db;
-        border-radius: 10px;
-        font-size: 14px;
-        background-color: #f9fafb;
-        transition: all 0.3s ease;
-      }
-      input:focus {
-        border-color: #030504fe;
-        background-color: #fff;
-        outline: none;
-      }
-      button {
-        width: 100%;
-        padding: 15px;
-        background-color: #030504fe;
-        color: white;
-        font-size: 16px;
-        font-weight: 600;
-        border: none;
-        border-radius: 10px;
-        cursor: pointer;
-        transition: background-color 0.3s;
-      }
-      button:hover {
-        background-color: #48312b;
-      }
-      .switch {
-        text-align: center;
-        margin-top: 15px;
-      }
-      .switch a {
-        color: #030504fe;
-        text-decoration: none;
-        font-weight: 600;
-      }
-      .switch a:hover {
-        text-decoration: underline;
+        font-family: 'Poppins', sans-serif;
       }
     </style>
   </head>
-  <body>
-    <div class="form-container">
-      <h2>Sign In</h2>
+  <body class="bg-slate-100 flex justify-center items-center h-screen">
+    <div class="bg-white p-10 rounded-2xl shadow-xl max-w-[400px] w-full">
+      <h2 class="text-center text-2xl font-bold mb-6 text-[#030504fe]">Sign In</h2>
       <form id="signupForm" method='post'>
-        <label for="name">Nama Lengkap</label>
-        <input type="text" id="name" name="nama" required />
+        <label for="name" class="text-sm font-medium mb-2 block text-gray-600">Nama Lengkap</label>
+        <input type="text" id="name" name="nama" required class="w-full py-3 px-4 mb-5 border border-gray-300 rounded-[10px] text-sm bg-gray-50 transition-all duration-300 ease-in-out focus:border-black focus:bg-white focus:outline-none" />
 
-        <label for="email">Email</label>
-        <input type="email" id="email" name="email" required />
+        <label for="email" class="text-sm font-medium mb-2 block text-gray-600">Email</label>
+        <input type="email" id="email" name="email" required class="w-full py-3 px-4 mb-5 border border-gray-300 rounded-[10px] text-sm bg-gray-50 transition-all duration-300 ease-in-out focus:border-black focus:bg-white focus:outline-none" />
 
-        <label for="password">Kata Sandi</label>
-        <input type="password" id="password" name="password" required />
-        <label for="password2">Verifikasi Kata Sandi</label>
-        <input type="password" id="password2" name="password2" required />
+        <label for="password" class="text-sm font-medium mb-2 block text-gray-600">Kata Sandi</label>
+        <input type="password" id="password" name="password" required class="w-full py-3 px-4 mb-5 border border-gray-300 rounded-[10px] text-sm bg-gray-50 transition-all duration-300 ease-in-out focus:border-black focus:bg-white focus:outline-none" />
+        <label for="password2" class="text-sm font-medium mb-2 block text-gray-600">Verifikasi Kata Sandi</label>
+        <input type="password" id="password2" name="password2" required class="w-full py-3 px-4 mb-5 border border-gray-300 rounded-[10px] text-sm bg-gray-50 transition-all duration-300 ease-in-out focus:border-black focus:bg-white focus:outline-none" />
         
-        <button type="submit" name='register'>Daftar</button>
+        <button type="submit" name='register' class="w-full p-[15px] bg-[#030504fe] text-white text-base font-semibold border-none rounded-[10px] cursor-pointer transition-colors duration-300 hover:bg-[#48312b]">Daftar</button>
       </form>
-      <div class="switch">
-        Sudah punya akun? <a href="login.php">Masuk di sini</a>
+      <div class="text-center mt-4 text-sm">
+        Sudah punya akun? <a href="login.php" class="text-[#030504fe] no-underline font-semibold hover:underline">Masuk di sini</a>
       </div>
     </div>
   </body>

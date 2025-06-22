@@ -47,124 +47,33 @@ if(isset($_POST["masuk"])) {
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Login - RB Gallery</title>
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet"/>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600&display=swap" rel="stylesheet"/>
     <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
         body {
-            font-family: "Poppins", sans-serif;
-            background-color: #f1f5f9;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            height: 100vh;
-        }
-        .form-container {
-            background-color: #ffffff;
-            padding: 40px;
-            border-radius: 15px;
-            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
-            max-width: 400px;
-            width: 100%;
-        }
-        h2 {
-            text-align: center;
-            margin-bottom: 25px;
-            color: #030504fe;
-        }
-        label {
-            font-size: 14px;
-            font-weight: 500;
-            margin-bottom: 8px;
-            display: block;
-            color: #4b5563;
-        }
-        input[type="email"],
-        input[type="password"] {
-            width: 100%;
-            padding: 12px 16px;
-            margin-bottom: 15px;
-            border: 1px solid #d1d5db;
-            border-radius: 10px;
-            font-size: 14px;
-            background-color: #f9fafb;
-            transition: all 0.3s ease;
-        }
-        input:focus {
-            border-color: #030504fe;
-            background-color: #fff;
-            outline: none;
-        }
-        button {
-            width: 100%;
-            padding: 15px;
-            background-color: #030504fe;
-            color: white;
-            font-size: 16px;
-            font-weight: 600;
-            border: none;
-            border-radius: 10px;
-            cursor: pointer;
-            transition: background-color 0.3s;
-            margin-top: 10px;
-        }
-        button:hover {
-            background-color: #48312b;
-        }
-        .switch {
-            text-align: center;
-            margin-top: 20px;
-            font-size: 14px;
-        }
-        .switch a {
-            color: #030504fe;
-            text-decoration: none;
-            font-weight: 600;
-        }
-        .switch a:hover {
-            text-decoration: underline;
-        }
-        .remember-me {
-            display: flex;
-            align-items: center;
-            margin: 5px 0 15px 0;
-        }
-        .remember-me input[type="checkbox"] {
-            width: auto;
-            margin-right: 8px;
-            transform: scale(1.1);
-        }
-        .remember-me label {
-            margin: 0;
-            font-size: 14px;
-            cursor: pointer;
-            user-select: none;
-            color: #4b5563;
+            font-family: 'Poppins', sans-serif;
         }
     </style>
 </head>
-<body>
-    <div class="form-container">
-        <h2>Login</h2>
+<body class="bg-slate-100 flex justify-center items-center h-screen">
+    <div class="bg-white p-10 rounded-2xl shadow-xl max-w-[400px] w-full">
+        <h2 class="text-center text-2xl font-bold mb-6 text-[#030504fe]">Login</h2>
         <form id="loginForm" method="post">
-            <label for="email">Email</label>
-            <input type="email" id="email" name="email" required />
+            <label for="email" class="text-sm font-medium mb-2 block text-gray-600">Email</label>
+            <input type="email" id="email" name="email" required class="w-full py-3 px-4 mb-[15px] border border-gray-300 rounded-[10px] text-sm bg-gray-50 transition-all duration-300 ease-in-out focus:border-black focus:bg-white focus:outline-none" />
 
-            <label for="password">Kata Sandi</label>
-            <input type="password" id="password" name="password" required />
+            <label for="password" class="text-sm font-medium mb-2 block text-gray-600">Kata Sandi</label>
+            <input type="password" id="password" name="password" required class="w-full py-3 px-4 mb-[15px] border border-gray-300 rounded-[10px] text-sm bg-gray-50 transition-all duration-300 ease-in-out focus:border-black focus:bg-white focus:outline-none" />
             
-            <div class="remember-me">
-                <input type="checkbox" id="rememberMe" name="rememberMe" />
-                <label for="rememberMe">Remember Me</label>
+            <div class="flex items-center mt-[5px] mb-[15px]">
+                <input type="checkbox" id="rememberMe" name="rememberMe" class="w-auto mr-2 scale-110" />
+                <label for="rememberMe" class="m-0 text-sm cursor-pointer select-none text-gray-600">Remember Me</label>
             </div>
 
-            <button type="submit" name='masuk'>Masuk</button>
+            <button type="submit" name='masuk' class="w-full p-[15px] bg-[#030504fe] text-white text-base font-semibold border-none rounded-[10px] cursor-pointer transition-colors duration-300 mt-[10px] hover:bg-[#48312b]">Masuk</button>
         </form>
-        <div class="switch">
-            Belum punya akun? <a href="signin.php">Daftar di sini</a>
+        <div class="text-center mt-5 text-sm">
+            Belum punya akun? <a href="signin.php" class="text-[#030504fe] no-underline font-semibold hover:underline">Daftar di sini</a>
         </div>
     </div>
 </body>
