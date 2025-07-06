@@ -54,122 +54,131 @@ if (isset($_POST['submit'])) {
     </style>
 </head>
 <body class="bg-light">
-    <div class="container py-5">
-        <div class="card shadow-sm form-container">
-            <div class="card-header bg-primary text-white d-flex align-items-center justify-content-between">
-                <h1 class="h4 mb-0"><i class="fas fa-edit me-2"></i>Ubah Data Barang</h1>
-                <h1 class="h4 mb-0"><a href="admin.php" class="h4"><i class="fas fa-arrow-circle-left"></i></a></h1>
-            </div>
+<div class="container py-5">
+<div class="card shadow-sm form-container">
+    <div class="card-header bg-primary text-white d-flex align-items-center justify-content-between">
+    <h1 class="h4 mb-0"><i class="fas fa-edit me-2"></i>Ubah Data Barang</h1>
+    <h1 class="h4 mb-0"><a href="admin.php" class="h4"><i class="fas fa-arrow-circle-left"></i></a></h1>
+    </div>
             
-            <div class="card-body">
-                <!-- Current Data Display -->
-                <div class="mb-4 p-3 border rounded bg-white">
-                    <h5 class="mb-3 text-muted">Data Saat Ini</h5>
-                    <div class="row">
-                        <div class="col-md-2 fw-bold">Kode:</div>
-                        <div class="col-md-10"><?= htmlspecialchars($produk["Kode"]); ?></div>
-                    </div>
-                    <div class="row mt-2">
-                        <div class="col-md-2 fw-bold">Gambar:</div>
-                        <div class="col-md-10">
-                            <img src="../img/<?= htmlspecialchars($produk["Gambar"]); ?>" alt="<?= htmlspecialchars($produk["Nama"]); ?>" class="product-img">
-                        </div>
-                    </div>
-                    <div class="row mt-2">
-                        <div class="col-md-2 fw-bold">Nama:</div>
-                        <div class="col-md-10"><?= htmlspecialchars($produk["Nama"]); ?></div>
-                    </div>
-                    <div class="row mt-2">
-                        <div class="col-md-2 fw-bold">Ukuran:</div>
-                        <div class="col-md-10">
-                        S: <?= htmlspecialchars($produk["Ukuran_S"]); ?> ||
-                        M: <?= htmlspecialchars($produk["Ukuran_M"]); ?> ||
-                        L: <?= htmlspecialchars($produk["Ukuran_L"]); ?> ||
-                        XL: <?= htmlspecialchars($produk["Ukuran_XL"]); ?>
-                    </div>
-                    </div>
-                    <div class="row mt-2">
-                        <div class="col-md-2 fw-bold">Harga:</div>
-                        <div class="col-md-10">Rp <?= number_format($produk["Harga"], 0, ',', '.'); ?></div>
-                    </div>
-                    <div class="row mt-2">
-                        <div class="col-md-2 fw-bold">Deskripsi:</div>
-                        <div class="col-md-10"><?= htmlspecialchars($produk["Deskripsi"]); ?></div>
-                    </div>
-                </div>
+    <div class="card-body">
+    <!-- Current Data Display -->
+    <div class="mb-4 p-3 border rounded bg-white">
+    <h5 class="mb-3 text-muted">Data Saat Ini</h5>
+        <div class="row">
+            <div class="col-md-2 fw-bold">Kode:</div>
+            <div class="col-md-10"><?= htmlspecialchars($produk["Kode"]); ?></div>
+        </div>
 
-                <!-- Edit Form -->
-                <form method="POST" enctype="multipart/form-data">
-                    <h5 class="mb-3 text-muted">Form Perubahan</h5>
-                    <input type="hidden" name='gambarLama' value="<?= $produk["Gambar"]; ?>">
-                    <input type="hidden" name='Kode' value="<?= $produk["Kode"]; ?>">
-                    <div class="mb-3">
-                        <label for="gambar" class="form-label">Gambar Baru</label>
-                        <input type="file" accept="image/*" class="form-control" id="gambar" name="Gambar">
-                    </div>
+        <div class="row mt-2">
+            <div class="col-md-2 fw-bold">Gambar:</div>
+            <div class="col-md-10">
+            <img src="../img/<?= htmlspecialchars($produk["Gambar"]); ?>" alt="<?= htmlspecialchars($produk["Nama"]); ?>" class="product-img">
+            </div>
+        </div>
+                   
+        <div class="row mt-2">
+            <div class="col-md-2 fw-bold">Nama:</div>
+            <div class="col-md-10"><?= htmlspecialchars($produk["Nama"]); ?></div>
+        </div>
                     
-                    <div class="mb-3">
-                        <label for="nama" class="form-label">Nama Produk</label>
-                        <input type="text" class="form-control" id="nama" name="Nama" 
-                               value="<?= htmlspecialchars($produk["Nama"]); ?>">
-                    </div>
-                   <div class="mb-3"> <label class="form-label">Ukuran Produk:</label> <div class="row g-2"> <div class="col-auto"> <div class="input-group">
+        <div class="row mt-2">
+            <div class="col-md-2 fw-bold">Ukuran:</div>
+            <div class="col-md-10">
+            S: <?= htmlspecialchars($produk["Ukuran_S"]); ?> ||
+            M: <?= htmlspecialchars($produk["Ukuran_M"]); ?> ||
+            L: <?= htmlspecialchars($produk["Ukuran_L"]); ?> ||
+            XL: <?= htmlspecialchars($produk["Ukuran_XL"]); ?>
+            </div>
+            </div>
+        <div class="row mt-2">
+            <div class="col-md-2 fw-bold">Harga:</div>
+            <div class="col-md-10">Rp <?= number_format($produk["Harga"], 0, ',', '.'); ?></div>
+        </div>
+
+        <div class="row mt-2">
+            <div class="col-md-2 fw-bold">Deskripsi:</div>
+            <div class="col-md-10"><?= htmlspecialchars($produk["Deskripsi"]); ?></div>
+        </div>
+    </div>
+
+    <!-- Edit Form -->
+    <form method="POST" enctype="multipart/form-data">
+        <h5 class="mb-3 text-muted">Form Perubahan</h5>
+        <input type="hidden" name='gambarLama' value="<?= $produk["Gambar"]; ?>">
+        <input type="hidden" name='Kode' value="<?= $produk["Kode"]; ?>">
+
+        <!-- Gambar Produk -->
+        <div class="mb-3">
+            <label for="gambar" class="form-label">Gambar Baru</label>
+            <input type="file" accept="image/*" class="form-control" id="gambar" name="Gambar">
+        </div>
+
+        <!-- Nama Produk -->
+        <div class="mb-3">
+            <label for="nama" class="form-label">Nama Produk</label>
+            <input type="text" class="form-control" id="nama" name="Nama" value="<?= htmlspecialchars($produk["Nama"]); ?>">
+        </div>
+
+        <!-- Ukuran Produk -->
+        <div class="mb-3">
+            <label class="form-label">Ukuran Produk:</label>
+            <div class="row g-2">
+                <div class="col-auto">
+                    <div class="input-group">
                 <span class="input-group-text">S</span>
-                <input type="number" class="form-control" name="Ukuran_S" 
-                       value="<?= htmlspecialchars($produk["Ukuran_S"]); ?>" style="max-width: 60px;"> 
+                <input type="number" class="form-control" name="Ukuran_S" value="<?= htmlspecialchars($produk["Ukuran_S"]); ?>" style="max-width: 60px;"> 
             </div>
+            </div>
+
+            <div class="col-auto">
+            <div class="input-group">
+                <span class="input-group-text">M</span> <input type="number" class="form-control" name="Ukuran_M" value="<?= htmlspecialchars($produk["Ukuran_M"]); ?>" style="max-width: 60px;">
+            </div>
+            </div>
+
+            <div class="col-auto">
+            <div class="input-group">
+                <span class="input-group-text">L</span> <input type="number" class="form-control" name="Ukuran_L" value="<?= htmlspecialchars($produk["Ukuran_L"]); ?>" style="max-width: 60px;">
+            </div>
+            </div>
+
+            <div class="col-auto">
+            <div class="input-group">
+                <span class="input-group-text">XL</span> <input type="number" class="form-control" name="Ukuran_XL" value="<?= htmlspecialchars($produk["Ukuran_XL"]); ?>" style="max-width: 60px;">
+            </div>
+            </div>
+        </div>
         </div>
 
-        <div class="col-auto">
-            <div class="input-group">
-                <span class="input-group-text">M</span> <input type="number" class="form-control" name="Ukuran_M" 
-                       value="<?= htmlspecialchars($produk["Ukuran_M"]); ?>" style="max-width: 60px;">
-            </div>
+        <!-- Harga Produk -->
+        <div class="mb-3">
+        <label for="harga" class="form-label">Harga</label>
+        <div class="input-group">
+            <span class="input-group-text">Rp</span>
+            <input type="number" class="form-control" id="harga" name="Harga" value="<?= htmlspecialchars($produk["Harga"]); ?>">
+        </div>
         </div>
 
-        <div class="col-auto">
-            <div class="input-group">
-                <span class="input-group-text">L</span> <input type="number" class="form-control" name="Ukuran_L" 
-                       value="<?= htmlspecialchars($produk["Ukuran_L"]); ?>" style="max-width: 60px;">
-            </div>
+        <!-- Deskripsi Produk -->
+        <div class="mb-4">
+        <label for="deskripsi" class="form-label">Deskripsi</label>
+            <textarea class="form-control" id="deskripsi" name="Deskripsi" rows="3"><?= htmlspecialchars($produk["Deskripsi"]); ?></textarea>
         </div>
-
-        <div class="col-auto">
-            <div class="input-group">
-                <span class="input-group-text">XL</span> <input type="number" class="form-control" name="Ukuran_XL" 
-                       value="<?= htmlspecialchars($produk["Ukuran_XL"]); ?>" style="max-width: 60px;">
-            </div>
+           
+        <!-- Button -->
+        <div class="d-flex justify-content-between">
+            <a href="admin.php" class="btn btn-outline-secondary">
+            <i class="fas fa-arrow-left me-1"></i> Kembali
+            </a>
+            <button type="submit" name="submit" class="btn btn-primary">
+            <i class="fas fa-save me-1"></i> Simpan Perubahan
+            </button>
         </div>
+    </form>
     </div>
 </div>
-                    
-                    <div class="mb-3">
-                        <label for="harga" class="form-label">Harga</label>
-                        <div class="input-group">
-                            <span class="input-group-text">Rp</span>
-                            <input type="number" class="form-control" id="harga" name="Harga" 
-                                   value="<?= htmlspecialchars($produk["Harga"]); ?>">
-                        </div>
-                    </div>
-                    
-                    <div class="mb-4">
-                        <label for="deskripsi" class="form-label">Deskripsi</label>
-                        <textarea class="form-control" id="deskripsi" name="Deskripsi" 
-                                  rows="3"><?= htmlspecialchars($produk["Deskripsi"]); ?></textarea>
-                    </div>
-                    
-                    <div class="d-flex justify-content-between">
-                        <a href="admin.php" class="btn btn-outline-secondary">
-                            <i class="fas fa-arrow-left me-1"></i> Kembali
-                        </a>
-                        <button type="submit" name="submit" class="btn btn-primary">
-                            <i class="fas fa-save me-1"></i> Simpan Perubahan
-                        </button>
-                    </div>
-                </form>
-            </div>
-        </div>
-    </div>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</div>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>

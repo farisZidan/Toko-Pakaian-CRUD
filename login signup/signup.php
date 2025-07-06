@@ -33,7 +33,7 @@ if (isset($_POST['register'])) {
   </head>
   <body class="bg-slate-100 flex justify-center items-center h-screen">
     <div class="bg-white p-10 rounded-2xl shadow-xl max-w-[400px] w-full">
-      <h2 class="text-center text-2xl font-bold mb-6 text-[#030504fe]">Sign In</h2>
+      <h2 class="text-center text-2xl font-bold mb-6 text-[#030504fe]">Sign Up</h2>
       <form id="signupForm" method='post'>
         <label for="name" class="text-sm font-medium mb-2 block text-gray-600">Nama Lengkap</label>
         <input type="text" id="name" name="nama" required class="w-full py-3 px-4 mb-5 border border-gray-300 rounded-[10px] text-sm bg-gray-50 transition-all duration-300 ease-in-out focus:border-black focus:bg-white focus:outline-none" />

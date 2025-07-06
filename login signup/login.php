@@ -5,41 +5,46 @@ require '../config/conn.php';
 if(isset($_POST["masuk"])) {
     $email = $_POST["email"];
     $password = $_POST["password"];
-    $result = mysqli_query($conn, "SELECT * FROM user WHERE email = '$email' ");
-    
-    if(mysqli_num_rows($result) === 1) {
-        $row = mysqli_fetch_assoc($result);
-        
-    if(password_verify($password, $row["password"])) {
-        if($row['role'] == 'admin') {
-            $_SESSION['role'] = 'admin';
-            $_SESSION['login'] = true;
+   try {
+    $stmt = $conn->prepare("SELECT * FROM user WHERE email = :email");
+    $stmt->execute([':email' => $email]);
+    $user = $stmt->fetch();
+
+    if($user) {
+        if(password_verify($password, $user["password"])) {
+            if($user['role'] == 'admin') {
+                $_SESSION['role'] = 'admin';
+                $_SESSION['login'] = true;
             header("Location: ../admin/admin.php");
             exit;
             } 
-        elseif($row['role'] == 'user') {
+        elseif($user['role'] == 'user') {
         // Atur cookie
         $cookieOptions = [
         'expires' => isset($_POST['rememberMe']) ? time()+86400*30 : 0,
         'path' => '/',
         ];
                 
-        setcookie('User', $row['nama'], $cookieOptions);
-        setcookie('email', $row['email'], $cookieOptions);
-                
+        setcookie('User', $user['nama'], $cookieOptions);
+        setcookie('email', $user['email'], $cookieOptions);
+
         header("Location: ../index.html");
         exit;
         }
         }
-    }
-    
+    }   
     // Jika autentikasi gagal
     echo "<script>
     alert('Email atau kata sandi salah!');
     document.location.href = 'login.php';
     </script>";
     exit;
+    }
+    catch (Exception $e) {
+        echo "<script>alert('Gagal login : " . $e->getMessage() . "');</script>";
+    }
 }
+
 ?>
 <!DOCTYPE html>
 <html lang="id">

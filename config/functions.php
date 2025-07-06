@@ -2,117 +2,157 @@
 include 'conn.php';
 // Function Select
 function select($query) {
-    $barang = mysqli_query($GLOBALS['conn'], $query);
-    $rows = [];
-    while ($data = mysqli_fetch_assoc($barang)) {
-    $rows[] = $data;
-    }
-return $rows;
+    global $conn;
+    $stmt = $conn->query($query);
+    $rows = $stmt->fetchAll(PDO::FETCH_ASSOC);
+    return $rows;
 }
+
 // Function Insert
 function insert($data) {
     global $conn;
 
-    $nama = htmlspecialchars($data["Nama"]);
-    $ukuranS = htmlspecialchars($data["Ukuran_S"]);
-    $ukuranM = htmlspecialchars($data["Ukuran_M"]);
-    $ukuranL = htmlspecialchars($data["Ukuran_L"]);
-    $ukuranXL = htmlspecialchars($data["Ukuran_XL"]);
-    $harga = htmlspecialchars($data["Harga"]);
-    $deskripsi = htmlspecialchars($data["Deskripsi"]);
+    $gambar = upload() ?? null;
+    $productData = [
+        'nama' => $data["Nama"],
+        'ukuranS' => $data["Ukuran_S"],
+        'ukuranM' => $data["Ukuran_M"],
+        'ukuranL' => $data["Ukuran_L"],
+        'ukuranXL' => $data["Ukuran_XL"],
+        'harga' => $data["Harga"],
+        'deskripsi' => $data["Deskripsi"],
+        'gambar' => $gambar
+    ];
 
-    //upload gambar
-    $gambar = upload();
-    if(!$gambar) {
+    try {
+        $stmt = $conn->prepare("INSERT INTO barang (Nama, Ukuran_S, Ukuran_M, Ukuran_L, Ukuran_XL, Harga, Deskripsi, Gambar) VALUES (:nama, :ukuranS, :ukuranM, :ukuranL, :ukuranXL, :harga, :deskripsi, :gambar)");
+        $stmt->execute($productData);
+        return $stmt->rowCount(); // Mengembalikan jumlah baris yang terpengaruh
+    } catch (PDOException $e) {
+        echo "<script>
+        alert('Gagal menambah barang: " . addslashes($e->getMessage()) . "');
+        document.location.href = 'tambahProduk.php';
+        </script>";
+        return false;
+    }
+}
+
+function upload() {
+    // 1. Jika tidak ada file diupload, berhenti tanpa pesan
+    if (!isset($_FILES['Gambar']) || $_FILES['Gambar']['error'] === UPLOAD_ERR_NO_FILE) {
+        return false; // Berhenti tanpa pesan
+    }
+
+    // Persiapan data file
+    $namaFile = $_FILES['Gambar']['name'];
+    $ukuranFile = $_FILES['Gambar']['size'];
+    $error = $_FILES['Gambar']['error'];
+    $tmpName = $_FILES['Gambar']['tmp_name'];
+
+    // 2. Cek jika ada error upload selain "no file"
+    if ($error !== UPLOAD_ERR_OK) {
+        echo "<script>
+        alert('Terjadi kesalahan saat mengupload file');
+        document.location.href = 'tambahProduk.php';
+        </script>";
         return false;
     }
 
-    $query = "INSERT INTO barang
-            VALUES
-            ('', '$nama', '$ukuranS', '$ukuranM', '$ukuranL', '$ukuranXL',
-             '$gambar', '$harga', '$deskripsi')";
-    
-    mysqli_query($conn, $query);
-
-    return mysqli_affected_rows($conn);
-}
-function upload() {
-    $namaFile = htmlspecialchars($_FILES['Gambar']['name']);
-    $ukuranFile = htmlspecialchars($_FILES['Gambar']['size']);
-    $error = htmlspecialchars($_FILES['Gambar']['error']);
-    $tmpName = htmlspecialchars($_FILES['Gambar']['tmp_name']);
-
+    // Validasi ekstensi file
     $ekstensiGambarValid = ['jpg', 'jpeg', 'png'];
-    $ekstensiGambar = explode('.', $namaFile);
-    $ekstensiGambar = strtolower(end($ekstensiGambar));
+    $ekstensiGambar = strtolower(pathinfo($namaFile, PATHINFO_EXTENSION));
 
+    // 3. Jika ekstensi tidak valid
     if (!in_array($ekstensiGambar, $ekstensiGambarValid)) {
         echo "<script>
-        alert('Masukan gambar dengan format : jpg, jpeg ,png !');
-        document.location.href = 'tambahProduk.php';
+        alert('Masukan gambar dengan format: jpg, jpeg, png!');
+        window.history.back();
         </script>";
-        exit;
+        return false;
     }
 
+    // 4. Jika ukuran file terlalu besar (5MB)
     if ($ukuranFile > 5000000) {
         echo "<script>
-        alert('Ukuran gambar terlalu besar !');
+        alert('Ukuran gambar terlalu besar! Maksimal 5MB');
         document.location.href = 'tambahProduk.php';
         </script>";
-        exit;
+        return false;
     }
-    
-    $namaFileBaru = uniqid() . '.' . $ekstensiGambar;
-    move_uploaded_file($tmpName, '../img/' . $namaFileBaru);
 
-    return $namaFileBaru;
+    // Generate nama file baru
+    $namaFileBaru = uniqid() . '.' . $ekstensiGambar;
+    $tujuan = '../img/' . $namaFileBaru;
+
+    // Cek apakah file benar-benar file upload
+    if (!is_uploaded_file($tmpName)) {
+        return false;
+    }
+
+    // Pindahkan file ke folder tujuan
+    if (move_uploaded_file($tmpName, $tujuan)) {
+        return $namaFileBaru; // 5. Keadaan berhasil normal
+    } else {
+        echo "<script>
+        alert('Gagal menyimpan gambar');
+        document.location.href = 'tambahProduk.php';
+        </script>";
+        return false;
+    }
 }
+
 // Function Hapus
 function hapus($kode, $gambar) {
     global $conn;
-    mysqli_query($conn, "DELETE FROM barang WHERE Kode = $kode");
+    $stmt = $conn->query("DELETE FROM barang WHERE Kode = $kode");
     deleteFile($gambar);
-    return mysqli_affected_rows($conn);
+    return $stmt->rowCount();
 }
+
 // Function Hapus Image
 function deleteFile($path) {
-    $result = unlink($path);
+    $result = unlink("../img/$path");
     error_log("Delete result: " . ($result ? "success" : "failed") . " - $path");
     return $result;
 }
+
 // Function Update
 function update($data) {
     global $conn;
-    $kode = $data["Kode"];
-    $gambarLama = $data["gambarLama"];
-    $gambar = $data["Gambar"];
-    $nama = $data["Nama"];
-    $ukuranS = $data["Ukuran_S"];
-    $ukuranM = $data["Ukuran_M"];
-    $ukuranL = $data["Ukuran_L"];
-    $ukuranXL = $data["Ukuran_XL"];
-    $harga = $data["Harga"];
-    $deskripsi = $data["Deskripsi"];
 
-    if ($_FILES['Gambar']['error'] === 4) {
+    $gambarLama = $data['gambarLama'];
+    if (!isset($_FILES['Gambar']) || $_FILES['Gambar']['error'] === UPLOAD_ERR_NO_FILE) {
         $gambar = $gambarLama;
     } else {
         $gambar = upload();
     }
     
+    $productData = [
+        'kode' => $data["Kode"],
+        'gambar' => $gambar,
+        'nama' => $data["Nama"],
+        'ukuranS' => $data["Ukuran_S"],
+        'ukuranM' => $data["Ukuran_M"],
+        'ukuranL' => $data["Ukuran_L"],
+        'ukuranXL' => $data["Ukuran_XL"],
+        'harga' => $data["Harga"],
+        'deskripsi' => $data["Deskripsi"]
+    ];
+     
     $query = "UPDATE barang SET 
-                          Gambar = '$gambar', 
-                          Nama = ' $nama', 
-                          Ukuran_S = '$ukuranS',
-                          Ukuran_M = '$ukuranM',
-                          Ukuran_L = '$ukuranL',
-                          Ukuran_XL = '$ukuranXL',
-                          Harga = '$harga', 
-                          Deskripsi = '$deskripsi' 
-                          WHERE Kode = '$kode'";
-    mysqli_query($conn, $query);
+                          Gambar = :gambar, 
+                          Nama = :nama, 
+                          Ukuran_S = :ukuranS,
+                          Ukuran_M = :ukuranM,
+                          Ukuran_L = :ukuranL,
+                          Ukuran_XL = :ukuranXL,
+                          Harga = :harga, 
+                          Deskripsi = :deskripsi
+                          WHERE Kode = :kode";
+    $stmt = $conn->prepare($query);
+    $stmt->execute($productData);
 
-    return mysqli_affected_rows($conn);
+    return ($stmt->rowCount() > 0);
 
 }
 //Function registrasi
@@ -124,9 +164,12 @@ function registrasi($data) {
     $password = mysqli_real_escape_string($conn, $data['password']);
     $password2 = mysqli_real_escape_string($conn, $data['password2']);
 
-    $result = mysqli_query($conn, "SELECT email FROM user WHERE email = '$email'");
+    $stmt = $conn->prepare("SELECT email FROM user WHERE email = ?");
+    $stmt->bind_param("s", $email);
+    $stmt->execute();
+    $result = $stmt->get_result();
 
-    if(mysqli_fetch_assoc($result)) {
+    if($result->num_rows > 0) {
         echo "<script>
         alert('email sudah terdaftar');    
         </script>";

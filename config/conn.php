@@ -1,6 +1,11 @@
 <?php
-$conn = mysqli_connect("localhost", "root", "", "rbgallerydatabase");
+$host = "localhost";
+$dbname = "rbgallerydatabase";
+$username = "root";
+$password = "";
+
+$conn = new PDO("mysql:host=$host;dbname=$dbname", $username, $password);
 if (!$conn) {
-    die("Connection failed: " . mysqli_connect_error());
+    die("Connection failed: " . $conn->errorInfo());
 }
 ?>
