@@ -73,7 +73,7 @@ if(isset($_POST["masuk"])) {
             <button type="submit" name='masuk' class="w-full p-[15px] bg-[#030504fe] text-white text-base font-semibold border-none rounded-[10px] cursor-pointer transition-colors duration-300 mt-[10px] hover:bg-[#48312b]">Masuk</button>
         </form>
         <div class="text-center mt-5 text-sm">
-            Belum punya akun? <a href="signin.php" class="text-[#030504fe] no-underline font-semibold hover:underline">Daftar di sini</a>
+            Belum punya akun? <a href="signup.php" class="text-[#030504fe] no-underline font-semibold hover:underline">Daftar di sini</a>
         </div>
     </div>
 </body>

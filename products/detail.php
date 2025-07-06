@@ -139,9 +139,7 @@ document.addEventListener('DOMContentLoaded', function() {
             .catch(error => handleError(error, 'stok'));
     }
 
-    // Event listeners
-    document.getElementById('addToCart').addEventListener('click', addToCart);
-    
+    // Event listener untuk tombol size
     sizeButtons.forEach(button => {
         button.addEventListener('click', function() {
             // Update tampilan button
@@ -157,6 +155,9 @@ document.addEventListener('DOMContentLoaded', function() {
             updateStok(selectedSize);
         });
     });
+
+    // Event listeners untuk tombol add to cart
+    document.getElementById('addToCart').addEventListener('click', addToCart);
 
     // Fungsi add to cart
     async function addToCart() {
@@ -194,8 +195,7 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     }
 
-    // Inisialisasi awal
-     // Update cart count on page load
+    // Update cart count on page load
     updateCartCount();
     // Update cart count when the page becomes visible
     document.addEventListener('visibilitychange', function() {  
