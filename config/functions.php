@@ -164,9 +164,8 @@ function registrasi($data) {
     $password = mysqli_real_escape_string($conn, $data['password']);
     $password2 = mysqli_real_escape_string($conn, $data['password2']);
 
-    $stmt = $conn->prepare("SELECT email FROM user WHERE email = ?");
-    $stmt->bind_param("s", $email);
-    $stmt->execute();
+    $stmt = $conn->prepare("SELECT email FROM user WHERE email = :email");
+    $stmt->execute([':email' = $email]);
     $result = $stmt->get_result();
 
     if($result->num_rows > 0) {
