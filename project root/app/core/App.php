@@ -12,7 +12,7 @@ class App {
         $this->method = $url[1] ?? $this->method;
 
         $namespace = (stripos($this->controller, 'Admin') !== false) ? 'Admin/' : 'User/';
-        $controllerPath = __DIR__ . '/../controllers/' . $namespace . $this->controller . '.php';
+        $controllerPath = CONTROLLERS_PATH . $namespace . $this->controller . '.php';
 
         // Check if the controller file exists, then 
         if (!file_exists($controllerPath)) 
@@ -51,7 +51,6 @@ class App {
             header("Location: /error/400");
             exit();
         }
-        var_dump($url);
     }
 
     public function parseURL() 

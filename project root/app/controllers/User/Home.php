@@ -1,10 +1,13 @@
 <?php
 
-class Home {
+class Home extends Controller {
     public function index() 
     {
-        echo 'home/index';
-        echo '<br>';
-        echo 'User Home Controller Loaded';
+        $data = [
+            'title' => 'RBGallery - Home'
+        ];
+        $this->render('template/header', $data);
+        $this->render('home/index');
+        $this->render('template/footer');
     }
 }

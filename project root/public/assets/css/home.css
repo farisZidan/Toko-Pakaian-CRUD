@@ -1,0 +1,196 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+body {
+  font-family: "Poppins", sans-serif;
+  line-height: 1.6;
+}
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background-color: #f8f8f8;
+  padding: 15px 50px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+.header .logo {
+  font-size: 24px;
+  font-weight: bold;
+  color: #333;
+}
+.header .menu {
+  list-style: none;
+  display: flex;
+  gap: 20px;
+}
+.header .menu li a {
+  text-decoration: none;
+  font-size: 16px;
+  color: #333;
+  transition: color 0.3s;
+}
+.header .menu li a:hover {
+  color: #48312b;
+  text-decoration: underline;
+}
+.hero {
+  position: relative;
+  width: 100%;
+  height: 80vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-image: var(--hero-bg);
+  background-position: center;
+}
+.hero .hero-text {
+  text-align: center;
+  color: #fff;
+  text-shadow: 1px 4px 8px black;
+}
+.hero .hero-text h1 {
+  font-size: 48px;
+  font-weight: bold;
+  margin-bottom: 10px;
+}
+.hero .hero-text p {
+  font-size: 18px;
+  margin-bottom: 20px;
+}
+.hero .hero-text a {
+  text-decoration: none;
+  font-size: 18px;
+  color: #fff;
+  background-color: #030504fe;
+  padding: 10px 20px;
+  border-radius: 5px;
+  transition: background-color 0.3s;
+}
+.hero .hero-text a:hover {
+  background-color: #48312b;
+}
+.section {
+  padding: 50px 20px;
+  background-color: #f9f9f9;
+  opacity: 0; /* Default hidden */
+  transform: translateY(50px); /* Default position */
+  transition: opacity 1s, transform 1s;
+}
+.section.visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+.section h2 {
+  font-size: 36px;
+  margin-bottom: 20px;
+  text-align: center;
+}
+.section p {
+  max-width: 800px;
+  margin: 0 auto;
+  font-size: 16px;
+  color: #555;
+  line-height: 1.8;
+  text-align: center;
+}
+.products-section {
+  background-color: #f4f4f4;
+  padding: 40px 0;
+}
+.products-section h2 {
+  text-align: center;
+  font-size: 36px;
+  color: #333;
+  margin-bottom: 30px;
+}
+.products-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 30px;
+  padding: 0 20px;
+}
+.product-card {
+  background-color: white;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  border-radius: 8px;
+  overflow: hidden;
+  text-align: center;
+  transition: transform 0.3s;
+}
+.product-card img {
+  width: 100%;
+  height: 200px;
+  object-fit: cover;
+}
+.product-card h3 {
+  font-size: 20px;
+  margin: 15px 0;
+  color: #333;
+}
+.product-card p {
+  font-size: 16px;
+  color: #777;
+  margin-bottom: 20px;
+}
+.product-card a {
+  display: inline-block;
+  font-size: 16px;
+  color: #48312b;
+  text-decoration: none;
+  padding: 10px 20px;
+  border-radius: 5px;
+  transition: background-color 0.3s;
+}
+.product-card:hover {
+  transform: translateY(-5px);
+}
+.product-card a:hover {
+  background-color: #f0f0f0;
+}
+.footer {
+  text-align: center;
+  background-color: #f8f8f8;
+  padding: 10px;
+  font-size: 14px;
+  color: #555;
+}
+
+/* Media Queries for Responsiveness */
+@media (max-width: 768px) {
+  .header {
+    padding: 15px 20px; /* Mengurangi padding pada header untuk perangkat kecil */
+  }
+  .header .logo {
+    font-size: 20px; /* Mengurangi ukuran font logo */
+  }
+  .header .menu {
+    flex-direction: column; /* Mengubah menu menjadi vertikal */
+    gap: 10px; /* Mengurangi jarak antara menu */
+  }
+  .hero {
+    height: 60vh; /* Mengurangi tinggi hero untuk perangkat kecil */
+  }
+  .hero .hero-text h1 {
+    font-size: 36px; /* Mengurangi ukuran font judul */
+  }
+  .hero .hero-text p {
+    font-size: 16px; /* Mengurangi ukuran font paragraf */
+  }
+  .section {
+    padding: 30px 10px; /* Mengurangi padding section untuk perangkat kecil */
+  }
+  .products-grid {
+    grid-template-columns: repeat(
+      2,
+      1fr
+    ); /* Menyesuaikan grid produk menjadi 2 kolom untuk perangkat kecil */
+  }
+  .product-card img {
+    height: 150px; /* Mengurangi tinggi gambar produk */
+  }
+  .footer {
+    font-size: 12px; /* Mengurangi ukuran font footer */
+  }
+}
