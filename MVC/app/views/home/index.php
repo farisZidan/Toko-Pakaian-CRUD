@@ -42,22 +42,22 @@
       <h2>Produk Terbaru Kami</h2>
       <div class="products-grid">
         <div class="product-card">
-          <img src="<?= ASSETS_PATH ?>img/Batik 8.jpg" alt="Produk 1" />
+          <img src="<?= IMG_ ?> Batik 8.jpg" alt="Produk 1" />
           <h3>Batik Flora modern</h3>
           <p>Corak yang simple dan elegan.</p>
-          <a href="<?= PUBLIC_PATH ?>Flora Modern">Lihat Detail</a>
+          <a href="<?= PUBLIC_ ?>Flora Modern">Lihat Detail</a>
         </div>
         <div class="product-card">
-          <img src="<?= ASSETS_PATH ?>img/Batik 4.jpg" alt="Produk 2" />
+          <img src="<?= IMG_ ?> Batik 4.jpg" alt="Produk 2" />
           <h3>Batik Fauna modern</h3>
           <p>Motif Fauna yang elegan dan mewah.</p>
-          <a href="<?= PUBLIC_PATH ?>Fauna Modern">Lihat Detail</a>
+          <a href="<?= PUBLIC_ ?>Fauna Modern">Lihat Detail</a>
         </div>
         <div class="product-card">
-          <img src="<?= ASSETS_PATH ?>img/Batik 9.jpg" alt="Produk 3" />
+          <img src="<?= IMG_ ?> Batik 9.jpg" alt="Produk 3" />
           <h3>Batik Flora simple</h3>
           <p>Motif dan Warna simple</p>
-          <a href="<?= PUBLIC_PATH ?>Flora Simple">Lihat Detail</a>
+          <a href="<?= PUBLIC_ ?>Flora Simple">Lihat Detail</a>
         </div>
       </div>
     </section>
