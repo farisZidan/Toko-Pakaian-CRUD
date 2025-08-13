@@ -1,26 +1,21 @@
-  <body>
-    <header class="header">
-      <div class="logo"><a href="../index.html">RB Gallery</a></div>
-      <ul class="menu">
-        <li><a href="../login signin/login.php">Login</a></li>
-        <li><a href="../login signin/signin.php">Sign In</a></li>
-        <li><a href="../index.html#about">Tentang Kami</a></li>
-      </ul>
-    </header>
+<header class="header">
+  <div class="logo"><a href="<?= PUBLIC_ ?>">RB Gallery</a></div>
+  <ul class="menu">
+    <li><a href="#">Login</a></li>
+    <li><a href="#">Sign In</a></li>
+    <li><a href="#">Tentang Kami</a></li>
+  </ul>
+</header>
 
-    <section class="product-detail">
-      <div class="carousel">
-        <div class="carousel-images">
-          <!-- Masukkan URL gambar lokal di sini -->
-          <img src="../img/Batik 4.jpg" alt="Batik 1" />
-          <img src="../img/Batik 2.jpg" alt="Batik 1" />
-          <img src="../img/Batik 1.jpg" alt="Batik 1" />
-        </div>
-      </div>
-      <h1>Batik Flora Modern</h1>
-      <p>
-        <?= $deskripsi ?>
-      </p>
-
-      <a href="produk.php" class="back-btn">Produk Lainnya</a>
-    </section>
+<section class="product-detail">
+  <div class="carousel">
+    <div class="carousel-images">
+      <img src="<?= IMG_ . $data['img'][0] ?>" alt="Batik 1" />
+      <img src="<?= IMG_ . $data['img'][1] ?>" alt="Batik 2" />
+      <img src="<?= IMG_ . $data['img'][2] ?>" alt="Batik 3" />
+    </div>
+  </div>
+  <h1><?= $data['name'] ?></h1>
+  <p><?= $data['description'] ?></p>
+  <a href="produk.php" class="back-btn">Produk Lainnya</a>
+</section>

@@ -11,14 +11,27 @@ class Controller {
         extract($data);
 
         // Check if the view file exists
-        $path = VIEWS_PATH . $view . '.php';
+        $path = VIEWS_ . $view . '.php';
         if (!file_exists($path)) {
-            throw new Exception("View file not found: " . VIEWS_PATH . $view . '.php');
+            throw new Exception("View file not found: " . $view . '.php');
         }
 
         // Include the view file
         require $path;
     } 
+
+    protected function model($model) {
+
+        // Check if the model file exists
+        $path = MODELS_ . 'User/' . $model . '.php';
+        if (!file_exists($path)) {
+            throw new Exception("Model file not found: " . $model . '.php');
+        }
+
+        // Include the model
+        require $path;
+        return new $model;
+    }
 
     protected function redirect($url) {
         header("Location: " . BASE_URL . $url);

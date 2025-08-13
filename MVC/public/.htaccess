@@ -1,6 +1,7 @@
 Options -Multiviews
 
 RewriteEngine On
+RewriteBase /rbgallery/MVC/public/
 RewriteCond %{REQUEST_FILENAME} !-d
 RewriteCond %{REQUEST_FILENAME} !-f
-RewriteRule ^(.*)$ index.php?url=$1 [L]
+RewriteRule ^(.*)$ index.php?url=$1 [L,QSA]

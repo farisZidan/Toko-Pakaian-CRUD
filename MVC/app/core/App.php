@@ -8,11 +8,11 @@ class App {
     public function __construct() 
     {
         $url = $this->parseURL();
-        $this->controller = $url[0] ?? $this->controller;
+        $this->controller = ucfirst($url[0] ?? $this->controller);
         $this->method = $url[1] ?? $this->method;
 
         $namespace = (stripos($this->controller, 'Admin') !== false) ? 'Admin/' : 'User/';
-        $controllerPath = CONTROLLERS_PATH . $namespace . $this->controller . '.php';
+        $controllerPath = CONTROLLERS_ . $namespace . $this->controller . '.php';
 
         // Check if the controller file exists, then 
         if (!file_exists($controllerPath)) 
@@ -20,6 +20,7 @@ class App {
             header("Location: /error/404");
             exit();
         }
+
         require_once $controllerPath;
         
         // Check if the controller class exists
