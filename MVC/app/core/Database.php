@@ -1,14 +1,14 @@
 <?php
-require_once '../../config/config.php';
+require_once APP_ . 'config/database.php';
 
 class Database {
-    private $host = 'DB_HOST';
-    private $dbname = 'DB_NAME';
-    private $username = 'DB_USER';
-    private $password = 'DB_PASS';
+    private $host = DB_HOST;
+    private $dbname = DB_NAME;
+    private $username = DB_USER;
+    private $password = DB_PASS;
     public $db;
 
-    public function getConnection() {
+    public function __construct() {
         $this->db = null;
         try {
             $this->db = new PDO("mysql:host={$this->host};dbname={$this->dbname}", $this->username, $this->password);

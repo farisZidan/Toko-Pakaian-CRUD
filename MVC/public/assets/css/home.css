@@ -235,7 +235,7 @@ body {
 
 .carousel-images img {
   width: 100%;
-  height: auto;
+  height: 500px;
   object-fit: cover;
   flex-shrink: 0;
 }

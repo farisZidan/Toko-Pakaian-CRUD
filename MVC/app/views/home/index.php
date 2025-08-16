@@ -12,7 +12,7 @@
   <div class="hero-text">
     <h1>Pakaian Batik terbaik untuk anda</h1>
     <p>Batik dengan kelembutan yang sangat halus</p>
-    <a href="products/produk.php">Belanja Sekarang</a>
+    <a href="products/index">Belanja Sekarang</a>
   </div>
 </section>
 

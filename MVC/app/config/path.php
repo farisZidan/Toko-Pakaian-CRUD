@@ -11,6 +11,7 @@ define('APP_', BASE_ . 'app/');
 define('VIEWS_', APP_ . 'views/');
 define('CONTROLLERS_', APP_ . 'controllers/');
 define('MODELS_', APP_ . 'models/');
+define('DB_', APP_ . 'core/Database.php');
 
 // Public path for the public directory
 define('PUBLIC_', BASE_URL . 'public/');

@@ -1,0 +1,18 @@
+:root {
+  --primary-bg: #f8f8f8;       /* Light gray for backgrounds */
+  --secondary-bg: #f4f4f4;     /* Slightly darker gray */
+  --text-primary: #333;        /* Dark gray for main text */
+  --text-secondary: #555;      /* Medium gray for less important text */
+  --accent-color: #48312b;     /* Brown accent color */
+  --accent-hover: #030504fe;   /* Darker accent for hover effects */
+  --font-main: "Poppins", sans-serif;
+}
+
+.footer {
+  text-align: center;
+  background-color: var(--primary-bg);
+  padding: 15px;
+  font-size: 14px;
+  color: var(--text-secondary);
+  margin-top: auto; /* Pushes footer to the bottom */
+}
